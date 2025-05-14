@@ -5,6 +5,7 @@ import os
 import logging
 import traceback
 import json
+from utils.credentials_helper import get_credentials
 
 # Configurar logger
 logger = logging.getLogger('formulario_culsen.sheets')
@@ -17,17 +18,16 @@ SCOPES = [
 
 # Get current directory
 current_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CREDENTIALS_PATH = os.path.join(current_dir, 'credentials.json')
 
 def get_sheet_client():
     """Returns an authenticated Google Sheets client"""
     try:
-        logger.info(f"Tentando autenticar com credenciais em: {CREDENTIALS_PATH}")
-        if not os.path.exists(CREDENTIALS_PATH):
-            logger.error(f"Arquivo de credenciais não encontrado: {CREDENTIALS_PATH}")
-            raise FileNotFoundError(f"Arquivo de credenciais não encontrado: {CREDENTIALS_PATH}")
+        logger.info("Tentando autenticar com Google Sheets")
+        
+        credentials = get_credentials(SCOPES)
+        if not credentials:
+            raise FileNotFoundError("Não foi possível obter credenciais válidas")
             
-        credentials = Credentials.from_service_account_file(CREDENTIALS_PATH, scopes=SCOPES)
         client = gspread.authorize(credentials)
         logger.info("Autenticação bem-sucedida")
         return client

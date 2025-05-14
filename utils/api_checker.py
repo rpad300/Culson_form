@@ -2,6 +2,7 @@ import logging
 import traceback
 from utils.sheets import get_config
 from utils.ia import get_gemini_key, get_openai_key, get_claude_key, get_deepseek_key
+from utils.credentials_helper import get_credentials
 import requests
 import json
 import google.generativeai as genai
@@ -53,14 +54,11 @@ def check_api_status():
     
     # Verificar Google Drive
     try:
-        # Get current directory
-        current_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        credentials_path = os.path.join(current_dir, 'credentials.json')
+        credentials = get_credentials(DRIVE_SCOPES)
         
-        if not os.path.exists(credentials_path):
-            result["google_drive"]["error"] = "Arquivo de credenciais não encontrado"
+        if not credentials:
+            result["google_drive"]["error"] = "Credenciais não encontradas"
         else:
-            credentials = Credentials.from_service_account_file(credentials_path, scopes=DRIVE_SCOPES)
             service = build('drive', 'v3', credentials=credentials)
             response = service.files().list(pageSize=1, fields="files(id, name)").execute()
             

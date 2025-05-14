@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administração - Formulário Culsen</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 1200px;
+            padding: 20px;
+        }
+        .header {
+            background-color: #0d6efd;
+            color: white;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .card {
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .btn-primary {
+            background-color: #0d6efd;
+        }
+        .table {
+            font-size: 0.9rem;
+        }
+        .status-novo {
+            background-color: #cff4fc;
+        }
+        .status-analisado {
+            background-color: #d1e7dd;
+        }
+        .status-revisao {
+            background-color: #fff3cd;
+        }
+        .status-rejeitado {
+            background-color: #f8d7da;
+        }
+        .config-section {
+            background-color: #f0f0f0;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Administração do Formulário Culsen</h1>
+            <p>Gerencie candidatos e configurações do sistema</p>
+        </div>
+
+        <!-- Mensagens de alerta -->
+        {% if message %}
+        <div class="alert {% if success %}alert-success{% else %}alert-danger{% endif %} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+        </div>
+        {% endif %}
+
+        <!-- Seção de informação da configuração -->
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4>Informações do Sistema</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Provedor de IA Atual:</h5>
+                        <p class="mb-0">
+                            {% if config.AI_PROVIDER == 'gemini' %}
+                                <span class="badge bg-info">Google Gemini</span>
+                            {% elif config.AI_PROVIDER == 'openai' %}
+                                <span class="badge bg-success">OpenAI GPT</span>
+                            {% elif config.AI_PROVIDER == 'claude' %}
+                                <span class="badge bg-warning">Anthropic Claude</span>
+                            {% elif config.AI_PROVIDER == 'deepseek' %}
+                                <span class="badge bg-secondary">DeepSeek</span>
+                            {% else %}
+                                <span class="badge bg-danger">Não configurado</span>
+                            {% endif %}
+                        </p>
+                        <small class="text-muted">Para modificar as configurações, edite diretamente a planilha Google Sheets na aba "Config"</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lista de candidatos -->
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4>Lista de Candidatos</h4>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Email</th>
+                                <th>Telefone</th>
+                                <th>Status</th>
+                                <th>Classificação IA</th>
+                                <th>Provedor IA</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for candidato in candidatos %}
+                            <tr class="{% if candidato.STATUS == 'NOVO' %}status-novo{% elif candidato.STATUS == 'ANALISADO' %}status-analisado{% elif candidato.STATUS == 'REVISÃO' %}status-revisao{% elif candidato.STATUS == 'REJEITADO' %}status-rejeitado{% endif %}">
+                                <td>{{ candidato['Nome completo:'] }}</td>
+                                <td>{{ candidato['Email de contacto:'] or candidato['Endereço de email'] }}</td>
+                                <td>{{ candidato['Número de telefone:'] }}</td>
+                                <td>{{ candidato.STATUS }}</td>
+                                <td>{{ candidato['Classificacao IA'] }}</td>
+                                <td>{{ candidato['Provedor IA'] }}</td>
+                                <td>
+                                    <a href="/admin/candidate/{{ candidato.index }}" class="btn btn-sm btn-info">Ver Detalhes</a>
+                                    <a href="/admin/reanalyze/{{ candidato.index }}" class="btn btn-sm btn-warning">Reanalisar</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="/" class="btn btn-outline-primary">Voltar para o Formulário</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 

@@ -767,32 +767,32 @@
                     <div class="api-status-grid">
                         <div class="api-item">
                             <span class="api-name">Google Drive</span>
-                            <span class="status-badge {% if api_status.google_drive.status %}status-success{% else %}status-error{% endif %}">
-                                {% if api_status.google_drive.status %}Conectado{% else %}Erro{% endif %}
+                            <span class="status-badge {% if api_status and api_status.google_drive and api_status.google_drive.status %}status-success{% else %}status-error{% endif %}">
+                                {% if api_status and api_status.google_drive and api_status.google_drive.status %}Conectado{% else %}Erro{% endif %}
                             </span>
                         </div>
                         <div class="api-item">
                             <span class="api-name">Google Gemini</span>
-                            <span class="status-badge {% if api_status.gemini.status %}status-success{% else %}status-error{% endif %}">
-                                {% if api_status.gemini.status %}Conectado{% else %}Erro{% endif %}
+                            <span class="status-badge {% if api_status and api_status.gemini and api_status.gemini.status %}status-success{% else %}status-error{% endif %}">
+                                {% if api_status and api_status.gemini and api_status.gemini.status %}Conectado{% else %}Erro{% endif %}
                             </span>
                         </div>
                         <div class="api-item">
                             <span class="api-name">OpenAI</span>
-                            <span class="status-badge {% if api_status.openai.status %}status-success{% else %}status-error{% endif %}">
-                                {% if api_status.openai.status %}Conectado{% else %}Erro{% endif %}
+                            <span class="status-badge {% if api_status and api_status.openai and api_status.openai.status %}status-success{% else %}status-error{% endif %}">
+                                {% if api_status and api_status.openai and api_status.openai.status %}Conectado{% else %}Erro{% endif %}
                             </span>
                         </div>
                         <div class="api-item">
                             <span class="api-name">Anthropic Claude</span>
-                            <span class="status-badge {% if api_status.claude.status %}status-success{% else %}status-error{% endif %}">
-                                {% if api_status.claude.status %}Conectado{% else %}Erro{% endif %}
+                            <span class="status-badge {% if api_status and api_status.claude and api_status.claude.status %}status-success{% else %}status-error{% endif %}">
+                                {% if api_status and api_status.claude and api_status.claude.status %}Conectado{% else %}Erro{% endif %}
                             </span>
                         </div>
                         <div class="api-item">
                             <span class="api-name">DeepSeek</span>
-                            <span class="status-badge {% if api_status.deepseek.status %}status-success{% else %}status-error{% endif %}">
-                                {% if api_status.deepseek.status %}Conectado{% else %}Erro{% endif %}
+                            <span class="status-badge {% if api_status and api_status.deepseek and api_status.deepseek.status %}status-success{% else %}status-error{% endif %}">
+                                {% if api_status and api_status.deepseek and api_status.deepseek.status %}Conectado{% else %}Erro{% endif %}
                             </span>
                         </div>
                     </div>

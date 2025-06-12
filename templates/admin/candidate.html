@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Candidato - Formulário Culsen</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 900px;
+            padding: 20px;
+        }
+        .header {
+            background-color: #0d6efd;
+            color: white;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .card {
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .btn-primary {
+            background-color: #0d6efd;
+        }
+        .field-label {
+            font-weight: bold;
+            margin-bottom: 0;
+        }
+        .field-value {
+            margin-bottom: 15px;
+            background-color: #f8f9fa;
+            padding: 8px;
+            border-radius: 4px;
+        }
+        .cv-analysis {
+            white-space: pre-line;
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #0d6efd;
+        }
+        .provider-badge {
+            display: inline-block;
+            padding: 0.35em 0.65em;
+            font-size: 0.75em;
+            font-weight: 700;
+            line-height: 1;
+            color: #fff;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: 0.25rem;
+            background-color: #17a2b8;
+            margin-left: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Detalhes do Candidato</h1>
+            <p>Visualize informações completas do candidato</p>
+        </div>
+
+        <!-- Mensagens de alerta -->
+        {% if message %}
+        <div class="alert {% if success %}alert-success{% else %}alert-danger{% endif %} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+        </div>
+        {% endif %}
+
+        <!-- Dados do Candidato -->
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4>Informações Pessoais</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p class="field-label">Nome:</p>
+                        <p class="field-value">{{ candidato.nome }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="field-label">Email:</p>
+                        <p class="field-value">{{ candidato.email }}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p class="field-label">Telefone:</p>
+                        <p class="field-value">{{ candidato.telefone }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="field-label">Data de Nascimento:</p>
+                        <p class="field-value">{{ candidato.data_nascimento }}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <p class="field-label">Morada:</p>
+                        <p class="field-value">{{ candidato.morada }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CV e Análise -->
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4>CV e Análise de IA</h4>
+            </div>
+            <div class="card-body">
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <p class="field-label">Link para o CV:</p>
+                        {% if candidato.cv_url %}
+                        <p class="field-value">
+                            <a href="{{ candidato.cv_url }}" target="_blank">{{ candidato.cv_url }}</a>
+                        </p>
+                        {% else %}
+                        <p class="field-value text-danger">CV não disponível</p>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-12">
+                        <p class="field-label">Status:</p>
+                        <p class="field-value">{{ candidato.status }}</p>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-12">
+                        <p class="field-label">Classificação IA:</p>
+                        <p class="field-value">
+                            {{ candidato.classificacao }}
+                            {% if candidato.provider %}
+                            <span class="provider-badge">{{ candidato.provider }}</span>
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-12">
+                        <p class="field-label">Análise Detalhada:</p>
+                        <div class="cv-analysis">
+                            {{ candidato.justificacao }}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row mt-4">
+                    <div class="col-md-12">
+                        <a href="/admin/reanalyze/{{ candidato.index }}" class="btn btn-warning">
+                            Reanalisar com Provedor de IA Atual
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="/admin" class="btn btn-outline-primary">Voltar</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 

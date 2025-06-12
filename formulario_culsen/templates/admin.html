@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Painel de Administração - Culsen Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #64748b;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --info-color: #06b6d4;
+            --light-bg: #f8fafc;
+            --dark-bg: #1e293b;
+            --border-color: #e2e8f0;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .main-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: var(--shadow-xl);
+            margin: 20px;
+            overflow: hidden;
+            min-height: calc(100vh - 40px);
+        }
+
+        .header-section {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #3b82f6 100%);
+            color: white;
+            padding: 30px 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transform: translate(50px, -50px);
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: -0.025em;
+        }
+
+        .page-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 40px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--accent-color);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .stat-card.total { --accent-color: var(--primary-color); }
+        .stat-card.approved { --accent-color: var(--success-color); }
+        .stat-card.rejected { --accent-color: var(--danger-color); }
+        .stat-card.pending { --accent-color: var(--warning-color); }
+
+        .stat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .stat-card.total .stat-icon { background: var(--primary-color); }
+        .stat-card.approved .stat-icon { background: var(--success-color); }
+        .stat-card.rejected .stat-icon { background: var(--danger-color); }
+        .stat-card.pending .stat-icon { background: var(--warning-color); }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-top: 4px;
+        }
+
+        .content-section {
+            padding: 0 40px 40px;
+        }
+
+        .section-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .section-header {
+            background: var(--light-bg);
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .section-icon {
+            width: 24px;
+            height: 24px;
+            color: var(--primary-color);
+        }
+
+        .section-body {
+            padding: 24px;
+        }
+
+        .api-status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .api-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            background: var(--light-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .api-name {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+        }
+
+        .status-success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+        }
+
+        .status-error {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger-color);
+        }
+
+        .provider-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 20px;
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+
+        .candidates-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
+
+        .candidates-table th {
+            background: var(--light-bg);
+            padding: 16px 12px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--border-color);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+        }
+
+        .candidates-table td {
+            padding: 16px 12px;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: middle;
+        }
+
+        .candidates-table tbody tr {
+            transition: all 0.2s ease;
+        }
+
+        .candidates-table tbody tr:hover {
+            background: var(--light-bg);
+        }
+
+        .candidate-row.approved {
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .candidate-row.rejected {
+            background: rgba(239, 68, 68, 0.05);
+        }
+
+        .candidate-row.pending {
+            background: rgba(245, 158, 11, 0.05);
+        }
+
+        .classification-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+        }
+
+        .classification-aprovado {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+        }
+
+        .classification-rejeitado {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger-color);
+        }
+
+        .classification-revisao {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning-color);
+        }
+
+        .classification-pendente {
+            background: rgba(100, 116, 139, 0.1);
+            color: var(--secondary-color);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-action {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-view {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-view:hover {
+            background: #1d4ed8;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .btn-reanalyze {
+            background: var(--warning-color);
+            color: white;
+            border: none;
+        }
+
+        .btn-reanalyze:hover {
+            background: #d97706;
+            transform: translateY(-1px);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .alert-modern {
+            border: none;
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid;
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.1);
+            border-left-color: var(--success-color);
+            color: #065f46;
+        }
+
+        .alert-danger {
+            background: rgba(239, 68, 68, 0.1);
+            border-left-color: var(--danger-color);
+            color: #991b1b;
+        }
+
+        .alert-warning {
+            background: rgba(245, 158, 11, 0.1);
+            border-left-color: var(--warning-color);
+            color: #92400e;
+        }
+
+        .alert-info {
+            background: rgba(6, 182, 212, 0.1);
+            border-left-color: var(--info-color);
+            color: #155e75;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                margin: 10px;
+                border-radius: 16px;
+            }
+
+            .header-section {
+                padding: 20px;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .stats-grid {
+                margin: 20px;
+                grid-template-columns: 1fr;
+            }
+
+            .content-section {
+                padding: 0 20px 20px;
+            }
+
+            .candidates-table {
+                font-size: 0.875rem;
+            }
+
+            .candidates-table th,
+            .candidates-table td {
+                padding: 12px 8px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+
+        .table-responsive {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        .loading-spinner-large {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .loading-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .loading-content {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: var(--shadow-xl);
+            max-width: 300px;
+        }
+
+        .loading-content .loading-spinner-large {
+            border-color: var(--primary-color);
+            border-top-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .btn-action:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn-action.loading {
+            pointer-events: none;
+        }
+
+        .processing-indicator {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-color);
+            font-weight: 500;
+            margin-top: 10px;
+        }
+
+        .processing-indicator.show {
+            display: flex;
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container fade-in">
+        <!-- Header Section -->
+        <div class="header-section">
+            <div class="header-content">
+                <h1 class="page-title">
+                    <i class="bi bi-speedometer2 me-3"></i>
+                    Painel de Administração
+                </h1>
+                <p class="page-subtitle">Gestão de candidaturas e análises de IA</p>
+            </div>
+        </div>
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div style="padding: 20px 40px 0;">
+                    {% for category, message in messages %}
+                        <div class="alert-modern alert-{{ category }}">
+                            <i class="bi bi-{% if category == 'success' %}check-circle{% elif category == 'danger' %}exclamation-triangle{% elif category == 'warning' %}exclamation-circle{% else %}info-circle{% endif %} me-2"></i>
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Statistics Cards -->
+        <div class="stats-grid">
+            <div class="stat-card total">
+                <div class="stat-header">
+                    <div class="stat-icon">
+                        <i class="bi bi-people"></i>
+                    </div>
+                </div>
+                <div class="stat-value">{{ candidatos|length }}</div>
+                <div class="stat-label">Total de Candidaturas</div>
+            </div>
+
+            <div class="stat-card approved">
+                <div class="stat-header">
+                    <div class="stat-icon">
+                        <i class="bi bi-check-circle"></i>
+                    </div>
+                </div>
+                <div class="stat-value">{{ candidatos|selectattr('Classificacao IA', 'equalto', 'Aprovado')|list|length }}</div>
+                <div class="stat-label">Candidatos Aprovados</div>
+            </div>
+
+            <div class="stat-card rejected">
+                <div class="stat-header">
+                    <div class="stat-icon">
+                        <i class="bi bi-x-circle"></i>
+                    </div>
+                </div>
+                <div class="stat-value">{{ candidatos|selectattr('Classificacao IA', 'equalto', 'Rejeitado')|list|length }}</div>
+                <div class="stat-label">Candidatos Rejeitados</div>
+            </div>
+
+            <div class="stat-card pending">
+                <div class="stat-header">
+                    <div class="stat-icon">
+                        <i class="bi bi-clock"></i>
+                    </div>
+                </div>
+                <div class="stat-value">{{ candidatos|selectattr('Classificacao IA', 'equalto', 'Revisão')|list|length + candidatos|selectattr('Classificacao IA', 'equalto', 'Pendente')|list|length }}</div>
+                <div class="stat-label">Em Análise</div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <!-- Navigation Menu -->
+            <div class="section-card">
+                <div class="section-header">
+                    <i class="bi bi-grid section-icon"></i>
+                    <h3 class="section-title">Menu de Administração</h3>
+                </div>
+                <div class="section-body">
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <a href="{{ url_for('admin_forms') }}" class="btn btn-outline-primary w-100 h-100 d-flex flex-column align-items-center justify-content-center p-4" style="min-height: 120px;">
+                                <i class="bi bi-file-earmark-text" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                                <strong>Administrar Formulários</strong>
+                                <small class="text-muted mt-1">Gerir formulários de candidatura</small>
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a href="{{ url_for('admin_questions') }}" class="btn btn-outline-info w-100 h-100 d-flex flex-column align-items-center justify-content-center p-4" style="min-height: 120px;">
+                                <i class="bi bi-question-circle" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                                <strong>Gerir Perguntas</strong>
+                                <small class="text-muted mt-1">Configurar perguntas dos formulários</small>
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a href="{{ url_for('index') }}" class="btn btn-outline-success w-100 h-100 d-flex flex-column align-items-center justify-content-center p-4" style="min-height: 120px;">
+                                <i class="bi bi-eye" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                                <strong>Ver Formulário</strong>
+                                <small class="text-muted mt-1">Visualizar formulário público</small>
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="btn btn-outline-secondary w-100 h-100 d-flex flex-column align-items-center justify-content-center p-4" style="min-height: 120px; cursor: default;">
+                                <i class="bi bi-gear" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                                <strong>Configurações</strong>
+                                <small class="text-muted mt-1">Editar na planilha Google Sheets</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cache Management Section -->
+            <div class="section-card">
+                <div class="section-header">
+                    <i class="bi bi-lightning section-icon"></i>
+                    <h3 class="section-title">Gestão de Cache</h3>
+                </div>
+                <div class="section-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <p class="text-muted mb-3">
+                                <i class="bi bi-info-circle me-1"></i>
+                                O sistema usa cache em memória para acelerar o carregamento das páginas. 
+                                Os dados são atualizados automaticamente, mas pode forçar uma atualização se necessário.
+                            </p>
+                            <div class="cache-stats" id="cacheStats">
+                                <div class="d-flex align-items-center gap-3 mb-2">
+                                    <span class="badge bg-primary">Carregando estatísticas...</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex flex-column gap-2">
+                                <form method="post" action="{{ url_for('admin_cache_refresh') }}" class="d-inline">
+                                    <button type="submit" class="btn btn-outline-primary btn-sm w-100">
+                                        <i class="bi bi-arrow-clockwise me-1"></i>
+                                        Atualizar Cache
+                                    </button>
+                                </form>
+                                <form method="post" action="{{ url_for('admin_cache_cleanup') }}" class="d-inline">
+                                    <button type="submit" class="btn btn-outline-info btn-sm w-100">
+                                        <i class="bi bi-broom me-1"></i>
+                                        Limpar Expirados
+                                    </button>
+                                </form>
+                                <form method="post" action="{{ url_for('admin_cache_clear') }}" class="d-inline">
+                                    <button type="submit" class="btn btn-outline-warning btn-sm w-100" 
+                                            onclick="return confirm('Tem certeza que deseja limpar todo o cache?')">
+                                        <i class="bi bi-trash me-1"></i>
+                                        Limpar Tudo
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Configuration Section -->
+            <div class="section-card">
+                <div class="section-header">
+                    <i class="bi bi-robot section-icon"></i>
+                    <h3 class="section-title">Configuração de Inteligência Artificial</h3>
+                </div>
+                <div class="section-body">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div>
+                            <h6 class="mb-1">Provedor Atual</h6>
+                            <div class="provider-badge">
+                                <i class="bi bi-cpu"></i>
+                                {% if config.get('AI_PROVIDER') == 'gemini' %}
+                                    Google Gemini
+                                {% elif config.get('AI_PROVIDER') == 'openai' %}
+                                    OpenAI GPT
+                                {% elif config.get('AI_PROVIDER') == 'claude' %}
+                                    Anthropic Claude
+                                {% elif config.get('AI_PROVIDER') == 'deepseek' %}
+                                    DeepSeek
+                                {% else %}
+                                    Não configurado
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-muted mb-0">
+                        <i class="bi bi-info-circle me-1"></i>
+                        Para modificar as configurações da IA, edite diretamente a planilha Google Sheets na aba "Config".
+                    </p>
+                </div>
+            </div>
+
+            <!-- API Status Section -->
+            <div class="section-card">
+                <div class="section-header">
+                    <i class="bi bi-cloud-check section-icon"></i>
+                    <h3 class="section-title">Status das APIs</h3>
+                </div>
+                <div class="section-body">
+                    <div class="api-status-grid">
+                        <div class="api-item">
+                            <span class="api-name">Google Drive</span>
+                            <span class="status-badge {% if api_status.google_drive.status %}status-success{% else %}status-error{% endif %}">
+                                {% if api_status.google_drive.status %}Conectado{% else %}Erro{% endif %}
+                            </span>
+                        </div>
+                        <div class="api-item">
+                            <span class="api-name">Google Gemini</span>
+                            <span class="status-badge {% if api_status.gemini.status %}status-success{% else %}status-error{% endif %}">
+                                {% if api_status.gemini.status %}Conectado{% else %}Erro{% endif %}
+                            </span>
+                        </div>
+                        <div class="api-item">
+                            <span class="api-name">OpenAI</span>
+                            <span class="status-badge {% if api_status.openai.status %}status-success{% else %}status-error{% endif %}">
+                                {% if api_status.openai.status %}Conectado{% else %}Erro{% endif %}
+                            </span>
+                        </div>
+                        <div class="api-item">
+                            <span class="api-name">Anthropic Claude</span>
+                            <span class="status-badge {% if api_status.claude.status %}status-success{% else %}status-error{% endif %}">
+                                {% if api_status.claude.status %}Conectado{% else %}Erro{% endif %}
+                            </span>
+                        </div>
+                        <div class="api-item">
+                            <span class="api-name">DeepSeek</span>
+                            <span class="status-badge {% if api_status.deepseek.status %}status-success{% else %}status-error{% endif %}">
+                                {% if api_status.deepseek.status %}Conectado{% else %}Erro{% endif %}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Candidates Table Section -->
+            <div class="section-card">
+                <div class="section-header">
+                    <i class="bi bi-table section-icon"></i>
+                    <h3 class="section-title">Lista de Candidatos</h3>
+                </div>
+                <div class="section-body">
+                    {% if candidatos %}
+                        <div class="table-responsive">
+                            <table class="candidates-table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Data</th>
+                                        <th>Nome</th>
+                                        <th>Email</th>
+                                        <th>Telefone</th>
+                                        <th>Experiência</th>
+                                        <th>Classificação</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for candidato in candidatos %}
+                                    <tr class="candidate-row {% if candidato['Classificacao IA'] == 'Aprovado' %}approved{% elif candidato['Classificacao IA'] == 'Rejeitado' %}rejected{% else %}pending{% endif %}">
+                                        <td><strong>{{ loop.index }}</strong></td>
+                                        <td>{{ candidato['Carimbo de data/hora'][:10] if candidato['Carimbo de data/hora'] else 'N/A' }}</td>
+                                        <td>
+                                            <div class="fw-medium">{{ candidato['Nome completo:'] or 'N/A' }}</div>
+                                        </td>
+                                        <td>{{ candidato['Email de contacto:'] or 'N/A' }}</td>
+                                        <td>{{ candidato['Número de telefone:'] or 'N/A' }}</td>
+                                        <td>
+                                            <span class="{% if candidato['Tem experiência com cuidados a idosos e/ou pessoas dependentes?'] == 'Sim' %}text-success{% else %}text-muted{% endif %}">
+                                                {{ candidato['Tem experiência com cuidados a idosos e/ou pessoas dependentes?'] or 'N/A' }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="classification-badge classification-{{ candidato['Classificacao IA'].lower() if candidato['Classificacao IA'] else 'pendente' }}">
+                                                {{ candidato['Classificacao IA'] or 'Pendente' }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <div class="action-buttons">
+                                                <a href="/admin/candidate/{{ candidato['index'] }}" class="btn-action btn-view">
+                                                    <i class="bi bi-eye"></i>
+                                                    Ver
+                                                </a>
+                                                <form method="post" action="{{ url_for('admin') }}" class="d-inline">
+                                                    <input type="hidden" name="row_index" value="{{ candidato['index'] }}">
+                                                    <button type="submit" name="reprocess" class="btn-action btn-reanalyze">
+                                                        <i class="bi bi-arrow-repeat"></i>
+                                                        Reanalisar
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="empty-state">
+                            <i class="bi bi-inbox"></i>
+                            <h5>Nenhuma candidatura encontrada</h5>
+                            <p>Ainda não há candidaturas submetidas no sistema.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="loading-spinner-large"></div>
+            <h5 class="mb-2">Processando...</h5>
+            <p class="text-muted mb-0" id="loadingMessage">Por favor aguarde enquanto processamos a sua solicitação.</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Loading overlay functions
+        function showLoading(message = 'Por favor aguarde enquanto processamos a sua solicitação.') {
+            const overlay = document.getElementById('loadingOverlay');
+            const messageEl = document.getElementById('loadingMessage');
+            messageEl.textContent = message;
+            overlay.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function hideLoading() {
+            const overlay = document.getElementById('loadingOverlay');
+            overlay.classList.remove('show');
+            document.body.style.overflow = '';
+        }
+
+        // Add loading state to reanalyze buttons
+        document.querySelectorAll('.btn-reanalyze').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const icon = this.querySelector('i');
+                const originalIconClass = icon.className;
+                const form = this.closest('form');
+                
+                // Show button loading state
+                icon.className = 'loading-spinner';
+                this.disabled = true;
+                this.classList.add('loading');
+                
+                // Show overlay with specific message
+                showLoading('Reanalisando candidato com IA... Isto pode demorar alguns segundos.');
+                
+                // Submit form after a short delay to show the loading state
+                setTimeout(() => {
+                    form.submit();
+                }, 500);
+                
+                // Fallback: re-enable button after 30 seconds in case of error
+                setTimeout(() => {
+                    icon.className = originalIconClass;
+                    this.disabled = false;
+                    this.classList.remove('loading');
+                    hideLoading();
+                }, 30000);
+            });
+        });
+
+        // Add loading state to view buttons
+        document.querySelectorAll('.btn-view').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const icon = this.querySelector('i');
+                const originalIconClass = icon.className;
+                
+                // Show button loading state
+                icon.className = 'loading-spinner';
+                this.style.pointerEvents = 'none';
+                
+                // Show overlay
+                showLoading('Carregando detalhes do candidato...');
+                
+                // Don't prevent default - let the navigation happen
+                // The loading will be hidden when the new page loads
+            });
+        });
+
+        // Show loading on page navigation
+        window.addEventListener('beforeunload', function() {
+            showLoading('Carregando...');
+        });
+
+        // Hide loading when page loads
+        window.addEventListener('load', function() {
+            hideLoading();
+        });
+
+        // Show loading for all navigation links
+        document.addEventListener('click', function(e) {
+            const link = e.target.closest('a');
+            if (link && link.href && !link.href.includes('#') && !link.target) {
+                // Only show loading for internal navigation
+                if (link.href.includes(window.location.origin)) {
+                    showLoading('Carregando...');
+                }
+            }
+        });
+
+        // Add smooth animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hide loading overlay on page load
+            hideLoading();
+            
+            // Animate cards
+            const cards = document.querySelectorAll('.stat-card, .section-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.classList.add('fade-in');
+            });
+
+            // Add processing indicators to table rows
+            const tableRows = document.querySelectorAll('.candidate-row');
+            tableRows.forEach(row => {
+                const actionsCell = row.querySelector('.action-buttons');
+                if (actionsCell) {
+                    const indicator = document.createElement('div');
+                    indicator.className = 'processing-indicator';
+                    indicator.innerHTML = '<div class="loading-spinner"></div><span>Processando...</span>';
+                    actionsCell.appendChild(indicator);
+                }
+            });
+        });
+
+        // Show processing indicator for specific row
+        function showRowProcessing(rowIndex) {
+            const rows = document.querySelectorAll('.candidate-row');
+            if (rows[rowIndex - 1]) {
+                const indicator = rows[rowIndex - 1].querySelector('.processing-indicator');
+                if (indicator) {
+                    indicator.classList.add('show');
+                    rows[rowIndex - 1].classList.add('pulse');
+                }
+            }
+        }
+
+        // Hide processing indicator for specific row
+        function hideRowProcessing(rowIndex) {
+            const rows = document.querySelectorAll('.candidate-row');
+            if (rows[rowIndex - 1]) {
+                const indicator = rows[rowIndex - 1].querySelector('.processing-indicator');
+                if (indicator) {
+                    indicator.classList.remove('show');
+                    rows[rowIndex - 1].classList.remove('pulse');
+                }
+            }
+        }
+
+        // Enhanced form submission handling
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', function() {
+                const submitButton = this.querySelector('button[type="submit"]');
+                if (submitButton && submitButton.name === 'reprocess') {
+                    const rowIndex = this.querySelector('input[name="row_index"]').value;
+                    showRowProcessing(rowIndex);
+                }
+            });
+        });
+
+        // Auto-hide loading overlay after 30 seconds as failsafe
+        setTimeout(() => {
+            hideLoading();
+        }, 30000);
+
+        // Load cache statistics
+        function loadCacheStats() {
+            fetch('/admin/cache/stats')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const statsContainer = document.getElementById('cacheStats');
+                        const stats = data.stats;
+                        const ttlConfig = data.cache_ttl_config;
+                        
+                        statsContainer.innerHTML = `
+                            <div class="d-flex align-items-center gap-3 mb-2">
+                                <span class="badge bg-success">${stats.valid_files} arquivos válidos</span>
+                                <span class="badge bg-warning">${stats.expired_files} expirados</span>
+                                <span class="badge bg-info">${stats.total_size_mb} MB</span>
+                            </div>
+                            <div class="small text-muted">
+                                <div>TTL Configurações: ${Math.floor(ttlConfig.config_ttl/60)}min</div>
+                                <div>TTL Candidatos: ${Math.floor(ttlConfig.candidates_ttl/60)}min</div>
+                                <div>TTL Perguntas: ${Math.floor(ttlConfig.questions_ttl/60)}min</div>
+                                <div>TTL Formulários: ${Math.floor(ttlConfig.forms_ttl/60)}min</div>
+                                <div>Diretório: ${stats.cache_dir}</div>
+                            </div>
+                        `;
+                    } else {
+                        document.getElementById('cacheStats').innerHTML = 
+                            '<span class="badge bg-danger">Erro ao carregar estatísticas</span>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar estatísticas do cache:', error);
+                    document.getElementById('cacheStats').innerHTML = 
+                        '<span class="badge bg-warning">Erro de conexão</span>';
+                });
+        }
+
+        // Load cache stats on page load and refresh every 30 seconds
+        loadCacheStats();
+        setInterval(loadCacheStats, 30000);
+    </script>
+</body>
+</html> 

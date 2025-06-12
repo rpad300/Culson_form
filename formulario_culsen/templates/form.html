@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Candidatura para Cuidadores - Culsen</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #64748b;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --info-color: #06b6d4;
+            --light-bg: #f8fafc;
+            --dark-bg: #1e293b;
+            --border-color: #e2e8f0;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 20px 0;
+        }
+
+        .main-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: var(--shadow-xl);
+            margin: 0 auto;
+            overflow: hidden;
+            max-width: 900px;
+        }
+
+        .header-section {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #3b82f6 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transform: translate(50px, -50px);
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: -0.025em;
+        }
+
+        .page-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+
+        .form-content {
+            padding: 40px;
+        }
+
+        .section-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            margin-bottom: 30px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .section-card:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .section-header {
+            background: var(--light-bg);
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .section-icon {
+            width: 24px;
+            height: 24px;
+            color: var(--primary-color);
+        }
+
+        .section-body {
+            padding: 24px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .form-control, .form-select {
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            outline: none;
+        }
+
+        .form-check {
+            margin-bottom: 12px;
+            padding-left: 32px;
+            position: relative;
+            display: block;
+        }
+
+        .form-check-input {
+            position: absolute;
+            left: 0;
+            top: 2px;
+            width: 20px;
+            height: 20px;
+            margin: 0;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-check-input:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .form-check-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            outline: none;
+        }
+
+        .form-check-input[type="radio"] {
+            border-radius: 50%;
+        }
+
+        .form-check-label {
+            font-weight: 500;
+            color: var(--text-primary);
+            cursor: pointer;
+            line-height: 1.4;
+            display: block;
+            margin-left: 0;
+        }
+
+        .form-text {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-top: 6px;
+        }
+
+        .file-upload-container {
+            position: relative;
+        }
+
+        .file-validation-status {
+            margin-top: 10px;
+            padding: 12px;
+            border-radius: 8px;
+            display: none;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+
+        .file-validation-status.validating {
+            display: flex;
+            background: rgba(6, 182, 212, 0.1);
+            border: 1px solid var(--info-color);
+            color: var(--info-color);
+        }
+
+        .file-validation-status.valid {
+            display: flex;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--success-color);
+            color: var(--success-color);
+        }
+
+        .file-validation-status.invalid {
+            display: flex;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--danger-color);
+            color: var(--danger-color);
+        }
+
+        .validation-spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid currentColor;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #3b82f6 100%);
+            border: none;
+            border-radius: 12px;
+            padding: 16px 32px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #1d4ed8 0%, var(--primary-color) 100%);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-outline-secondary {
+            border: 2px solid var(--border-color);
+            color: var(--text-secondary);
+            border-radius: 12px;
+            padding: 12px 24px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-secondary:hover {
+            background: var(--light-bg);
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            transform: translateY(-1px);
+        }
+
+        .alert {
+            border: none;
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid;
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.1);
+            border-left-color: var(--success-color);
+            color: #065f46;
+        }
+
+        .alert-danger {
+            background: rgba(239, 68, 68, 0.1);
+            border-left-color: var(--danger-color);
+            color: #991b1b;
+        }
+
+        .alert-warning {
+            background: rgba(245, 158, 11, 0.1);
+            border-left-color: var(--warning-color);
+            color: #92400e;
+        }
+
+        .alert-info {
+            background: rgba(6, 182, 212, 0.1);
+            border-left-color: var(--info-color);
+            color: #155e75;
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .loading-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .loading-content {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: var(--shadow-xl);
+            max-width: 350px;
+        }
+
+        .loading-spinner-large {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border: 3px solid var(--primary-color);
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s ease-in-out infinite;
+            margin-bottom: 20px;
+        }
+
+        .loading-spinner-btn {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 8px;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn.loading {
+            pointer-events: none;
+        }
+
+        .admin-link {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                margin: 10px;
+                border-radius: 16px;
+            }
+
+            .header-section {
+                padding: 30px 20px;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .form-content {
+                padding: 20px;
+            }
+
+            .section-body {
+                padding: 20px;
+            }
+
+            .form-check {
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="main-container fade-in">
+            <!-- Header Section -->
+            <div class="header-section">
+                <div class="header-content">
+                    <h1 class="page-title">
+                        <i class="bi bi-person-plus-fill me-3"></i>
+                        Candidatura para Cuidadores
+                    </h1>
+                    <p class="page-subtitle">Preencha o formulário abaixo para submeter a sua candidatura</p>
+                </div>
+            </div>
+
+            <div class="form-content">
+                <!-- Flash Messages -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                <i class="bi bi-{% if category == 'success' %}check-circle{% elif category == 'danger' %}exclamation-triangle{% elif category == 'warning' %}exclamation-circle{% else %}info-circle{% endif %} me-2"></i>
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                
+                <!-- Form -->
+                <form method="POST" enctype="multipart/form-data">
+                    <!-- 1. Dados Pessoais -->
+                    <div class="section-card">
+                        <div class="section-header">
+                            <i class="bi bi-person section-icon"></i>
+                            <h4 class="section-title">1. Dados Pessoais</h4>
+                        </div>
+                        <div class="section-body">
+                            
+                            <div class="mb-3">
+                                <label for="nome" class="form-label">Nome Completo *</label>
+                                <input type="text" class="form-control" id="nome" name="nome" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email de Contacto *</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="telefone" class="form-label">Número de Telefone *</label>
+                                <input type="tel" class="form-control" id="telefone" name="telefone" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="morada" class="form-label">Morada Completa *</label>
+                                <input type="text" class="form-control" id="morada" name="morada" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="data_nascimento" class="form-label">Data de Nascimento *</label>
+                                <input type="date" class="form-control" id="data_nascimento" name="data_nascimento" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Tem Carta de Condução Válida?</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="carta_conducao" id="carta_sim" value="Sim">
+                                    <label class="form-check-label" for="carta_sim">Sim</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="carta_conducao" id="carta_nao" value="Não">
+                                    <label class="form-check-label" for="carta_nao">Não</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        
+                    <!-- 2. Experiência com Cuidados -->
+                    <div class="section-card">
+                        <div class="section-header">
+                            <i class="bi bi-briefcase section-icon"></i>
+                            <h4 class="section-title">2. Experiência com Cuidados</h4>
+                        </div>
+                        <div class="section-body">
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Tem experiência com cuidados a idosos e/ou pessoas dependentes?</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="experiencia" id="experiencia_sim" value="Sim">
+                                    <label class="form-check-label" for="experiencia_sim">Sim</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="experiencia" id="experiencia_nao" value="Não">
+                                    <label class="form-check-label" for="experiencia_nao">Não</label>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Se sim, tipo de experiência:</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="tipo_experiencia[]" id="tipo_exp_1" value="Apoio domiciliário">
+                                    <label class="form-check-label" for="tipo_exp_1">Apoio domiciliário</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="tipo_experiencia[]" id="tipo_exp_2" value="Lares ou instituições">
+                                    <label class="form-check-label" for="tipo_exp_2">Lares ou instituições</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="tipo_experiencia[]" id="tipo_exp_3" value="Hospitalar">
+                                    <label class="form-check-label" for="tipo_exp_3">Hospitalar</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="tipo_experiencia[]" id="tipo_exp_4" value="Outro">
+                                    <label class="form-check-label" for="tipo_exp_4">Outro</label>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Duração total da experiência:</label>
+                                <select class="form-select" id="duracao_experiencia" name="duracao_experiencia">
+                                    <option value="" selected>Selecione uma opção</option>
+                                    <option value="Menos de 3 meses">Menos de 3 meses</option>
+                                    <option value="3 a 6 meses">3 a 6 meses</option>
+                                    <option value="6 meses a 1 ano">6 meses a 1 ano</option>
+                                    <option value="Mais de 1 ano">Mais de 1 ano</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Funções desempenhadas:</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="funcoes[]" id="funcao_1" value="Higiene pessoal">
+                                    <label class="form-check-label" for="funcao_1">Higiene pessoal</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="funcoes[]" id="funcao_2" value="Alimentação">
+                                    <label class="form-check-label" for="funcao_2">Alimentação</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="funcoes[]" id="funcao_3" value="Apoio na mobilidade">
+                                    <label class="form-check-label" for="funcao_3">Apoio na mobilidade</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="funcoes[]" id="funcao_4" value="Administração de medicação">
+                                    <label class="form-check-label" for="funcao_4">Administração de medicação</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="funcoes[]" id="funcao_5" value="Estimulação cognitiva">
+                                    <label class="form-check-label" for="funcao_5">Estimulação cognitiva</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="funcoes[]" id="funcao_6" value="Tarefas domésticas leves">
+                                    <label class="form-check-label" for="funcao_6">Tarefas domésticas leves</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="funcoes[]" id="funcao_7" value="Acompanhamento a consultas">
+                                    <label class="form-check-label" for="funcao_7">Acompanhamento a consultas</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="funcoes[]" id="funcao_8" value="Outra">
+                                    <label class="form-check-label" for="funcao_8">Outra</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        
+                    <!-- 3. Situação Legal -->
+                    <div class="section-card">
+                        <div class="section-header">
+                            <i class="bi bi-shield-check section-icon"></i>
+                            <h4 class="section-title">3. Situação Legal</h4>
+                        </div>
+                        <div class="section-body">
+                            
+                            <div class="mb-3">
+                                <label class="form-label">É cidadão português?</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="cidadao_portugues" id="cidadao_sim" value="Sim">
+                                    <label class="form-check-label" for="cidadao_sim">Sim</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="cidadao_portugues" id="cidadao_nao" value="Não">
+                                    <label class="form-check-label" for="cidadao_nao">Não</label>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Se não, está legalmente autorizado(a) a trabalhar em Portugal? *</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="autorizacao_portugal" id="autorizacao_sim" value="Sim" required>
+                                    <label class="form-check-label" for="autorizacao_sim">Sim</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="autorizacao_portugal" id="autorizacao_nao" value="Não" required>
+                                    <label class="form-check-label" for="autorizacao_nao">Não</label>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Documento que possui:</label>
+                                <select class="form-select" id="documento" name="documento">
+                                    <option value="" selected>Selecione uma opção</option>
+                                    <option value="CPLP">CPLP</option>
+                                    <option value="Título de residência">Título de residência</option>
+                                    <option value="Manifestação de interesse">Manifestação de interesse</option>
+                                    <option value="Outro">Outro</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Há quanto tempo está em Portugal?</label>
+                                <select class="form-select" id="tempo_portugal" name="tempo_portugal">
+                                    <option value="" selected>Selecione uma opção</option>
+                                    <option value="Menos de 3 meses">Menos de 3 meses</option>
+                                    <option value="3 a 6 meses">3 a 6 meses</option>
+                                    <option value="Mais de 6 meses">Mais de 6 meses</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                        
+                    <!-- 4. Recibos Verdes -->
+                    <div class="section-card">
+                        <div class="section-header">
+                            <i class="bi bi-receipt section-icon"></i>
+                            <h4 class="section-title">4. Recibos Verdes</h4>
+                        </div>
+                        <div class="section-body">
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Disponibilidade para trabalhar como prestador de serviços (recibos verdes)? *</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="recibos_verdes" id="recibos_sim" value="Sim" required>
+                                    <label class="form-check-label" for="recibos_sim">Sim</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="recibos_verdes" id="recibos_nao" value="Não" required>
+                                    <label class="form-check-label" for="recibos_nao">Não</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="recibos_verdes" id="recibos_ajuda" value="Não sei / Preciso de ajuda para obter" required>
+                                    <label class="form-check-label" for="recibos_ajuda">Não sei / Preciso de ajuda para obter</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        
+                    <!-- 5. Formação -->
+                    <div class="section-card">
+                        <div class="section-header">
+                            <i class="bi bi-mortarboard section-icon"></i>
+                            <h4 class="section-title">5. Formação</h4>
+                        </div>
+                        <div class="section-body">
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Tem formação na área da saúde/cuidados a idosos?</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="formacao_area" id="formacao_sim" value="Sim">
+                                    <label class="form-check-label" for="formacao_sim">Sim</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="formacao_area" id="formacao_nao" value="Não">
+                                    <label class="form-check-label" for="formacao_nao">Não</label>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Tipo de formação:</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="tipo_formacao[]" id="tipo_form_1" value="Curso profissional">
+                                    <label class="form-check-label" for="tipo_form_1">Curso profissional</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="tipo_formacao[]" id="tipo_form_2" value="Formação curta">
+                                    <label class="form-check-label" for="tipo_form_2">Formação curta</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="tipo_formacao[]" id="tipo_form_3" value="Técnico auxiliar de saúde / geriatria">
+                                    <label class="form-check-label" for="tipo_form_3">Técnico auxiliar de saúde / geriatria</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="tipo_formacao[]" id="tipo_form_4" value="Enfermagem">
+                                    <label class="form-check-label" for="tipo_form_4">Enfermagem</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="tipo_formacao[]" id="tipo_form_5" value="Outra">
+                                    <label class="form-check-label" for="tipo_form_5">Outra</label>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="entidade_formadora" class="form-label">Nome da entidade formadora:</label>
+                                <input type="text" class="form-control" id="entidade_formadora" name="entidade_formadora">
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="ano_conclusao" class="form-label">Ano de conclusão:</label>
+                                <input type="text" class="form-control" id="ano_conclusao" name="ano_conclusao">
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="formacao" class="form-label">Descreva sua formação (detalhes adicionais): *</label>
+                                <textarea class="form-control" id="formacao" name="formacao" rows="3" required></textarea>
+                            </div>
+                        </div>
+                    </div>
+                        
+                    <!-- 6. Disponibilidade -->
+                    <div class="section-card">
+                        <div class="section-header">
+                            <i class="bi bi-calendar-check section-icon"></i>
+                            <h4 class="section-title">6. Disponibilidade</h4>
+                        </div>
+                        <div class="section-body">
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Dias disponíveis para trabalhar:</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="dias_disponiveis[]" id="dia_1" value="Segunda">
+                                    <label class="form-check-label" for="dia_1">Segunda</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="dias_disponiveis[]" id="dia_2" value="Terça">
+                                    <label class="form-check-label" for="dia_2">Terça</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="dias_disponiveis[]" id="dia_3" value="Quarta">
+                                    <label class="form-check-label" for="dia_3">Quarta</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="dias_disponiveis[]" id="dia_4" value="Quinta">
+                                    <label class="form-check-label" for="dia_4">Quinta</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="dias_disponiveis[]" id="dia_5" value="Sexta">
+                                    <label class="form-check-label" for="dia_5">Sexta</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="dias_disponiveis[]" id="dia_6" value="Sábado">
+                                    <label class="form-check-label" for="dia_6">Sábado</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="dias_disponiveis[]" id="dia_7" value="Domingo">
+                                    <label class="form-check-label" for="dia_7">Domingo</label>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Turnos disponíveis:</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="turnos_disponiveis[]" id="turno_1" value="Manhã">
+                                    <label class="form-check-label" for="turno_1">Manhã</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="turnos_disponiveis[]" id="turno_2" value="Tarde">
+                                    <label class="form-check-label" for="turno_2">Tarde</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="turnos_disponiveis[]" id="turno_3" value="Noite">
+                                    <label class="form-check-label" for="turno_3">Noite</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="turnos_disponiveis[]" id="turno_4" value="Dormidas">
+                                    <label class="form-check-label" for="turno_4">Dormidas</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="turnos_disponiveis[]" id="turno_5" value="Fins de semana">
+                                    <label class="form-check-label" for="turno_5">Fins de semana</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        
+                    <!-- 7. Zona de Residência -->
+                    <div class="section-card">
+                        <div class="section-header">
+                            <i class="bi bi-geo-alt section-icon"></i>
+                            <h4 class="section-title">7. Zona de Residência</h4>
+                        </div>
+                        <div class="section-body">
+                            
+                            <div class="mb-3">
+                                <label for="residencia" class="form-label">Zona de residência atual: *</label>
+                                <input type="text" class="form-control" id="residencia" name="residencia" required>
+                            </div>
+                        </div>
+                    </div>
+                        
+                    <!-- 8. Upload do CV -->
+                    <div class="section-card">
+                        <div class="section-header">
+                            <i class="bi bi-file-earmark-text section-icon"></i>
+                            <h4 class="section-title">8. Currículo</h4>
+                        </div>
+                        <div class="section-body">
+                            
+                            <div class="mb-3">
+                                <label for="cv" class="form-label">Currículo (PDF ou TXT) *</label>
+                                <div class="file-upload-container">
+                                    <input class="form-control" type="file" id="cv" name="cv" accept=".pdf,.txt,.doc,.docx" required>
+                                    <div class="form-text">Apenas ficheiros PDF, TXT, DOC ou DOCX são aceites.</div>
+                                    
+                                    <div class="file-validation-status" id="fileValidationStatus">
+                                        <div class="validation-spinner"></div>
+                                        <span id="validationMessage">Verificando se o ficheiro é um currículo...</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        
+                    <!-- Submit Button -->
+                    <div class="section-card">
+                        <div class="section-body">
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary btn-lg" id="submitBtn">
+                                    <span class="btn-text">
+                                        <i class="bi bi-send me-2"></i>
+                                        Submeter Candidatura
+                                    </span>
+                                    <span class="btn-loading" style="display: none;">
+                                        <span class="loading-spinner-btn"></span>
+                                        Processando...
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Link para a página de administração -->
+        <div class="admin-link">
+            <a href="{{ url_for('admin') }}" class="btn btn-outline-secondary btn-sm" id="adminBtn">
+                <i class="bi bi-gear me-2"></i>
+                Painel de Administração
+            </a>
+        </div>
+    </div>
+
+
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="loading-spinner-large"></div>
+            <h5 class="mb-2">Processando Candidatura...</h5>
+            <p class="text-muted mb-0" id="loadingMessage">Analisando CV com IA e salvando dados. Isto pode demorar alguns segundos.</p>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Loading overlay functions
+        function showLoading(message = 'Analisando CV com IA e salvando dados. Isto pode demorar alguns segundos.') {
+            const overlay = document.getElementById('loadingOverlay');
+            const messageEl = document.getElementById('loadingMessage');
+            messageEl.textContent = message;
+            overlay.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function hideLoading() {
+            const overlay = document.getElementById('loadingOverlay');
+            overlay.classList.remove('show');
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hide loading overlay on page load
+            hideLoading();
+
+            // Animate cards on load
+            const cards = document.querySelectorAll('.section-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.classList.add('fade-in');
+            });
+
+            // Handle form submission
+            const form = document.querySelector('form');
+            const submitBtn = document.getElementById('submitBtn');
+            const btnText = submitBtn.querySelector('.btn-text');
+            const btnLoading = submitBtn.querySelector('.btn-loading');
+
+            form.addEventListener('submit', function(e) {
+                // Check if CV is valid before submission
+                if (fileInput.files.length > 0 && !isValidCV) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    showValidationStatus('invalid', 'Por favor, carregue um currículo válido antes de submeter.');
+                    
+                    // Scroll to file input
+                    fileInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    return;
+                }
+
+                // Show loading state
+                btnText.style.display = 'none';
+                btnLoading.style.display = 'inline-flex';
+                submitBtn.disabled = true;
+                submitBtn.classList.add('loading');
+
+                // Show overlay
+                showLoading('Processando candidatura... Analisando CV com IA e salvando dados. Isto pode demorar alguns segundos.');
+
+                // Validate form before submission
+                if (!form.checkValidity()) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // Reset button state
+                    btnText.style.display = 'inline';
+                    btnLoading.style.display = 'none';
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove('loading');
+                    hideLoading();
+                    
+                    form.classList.add('was-validated');
+                    return;
+                }
+
+                // Form is valid, continue with submission
+                form.classList.add('was-validated');
+            });
+
+            // Handle admin button
+            const adminBtn = document.getElementById('adminBtn');
+            if (adminBtn) {
+                adminBtn.addEventListener('click', function(e) {
+                    const icon = this.querySelector('i');
+                    const originalIconClass = icon.className;
+                    
+                    // Show loading state
+                    icon.className = 'bi bi-arrow-clockwise';
+                    icon.style.animation = 'spin 1s linear infinite';
+                    this.style.pointerEvents = 'none';
+                    
+                    // Show overlay
+                    showLoading('Carregando painel de administração...');
+                    
+                    // Don't prevent default - let navigation happen
+                });
+            }
+
+            // File input validation with AI
+            const fileInput = document.getElementById('cv');
+            const validationStatus = document.getElementById('fileValidationStatus');
+            const validationMessage = document.getElementById('validationMessage');
+            let isValidCV = false;
+
+            if (fileInput) {
+                fileInput.addEventListener('change', function() {
+                    const file = this.files[0];
+                    
+                    // Reset validation state
+                    isValidCV = false;
+                    hideValidationStatus();
+                    
+                    if (!file) {
+                        return;
+                    }
+
+                    // Basic file validation
+                    const fileSize = file.size / 1024 / 1024; // MB
+                    const maxSize = 16; // 16MB
+                    
+                    if (fileSize > maxSize) {
+                        showValidationStatus('invalid', `Arquivo muito grande (${fileSize.toFixed(2)}MB). Máximo permitido: ${maxSize}MB.`);
+                        this.value = '';
+                        return;
+                    }
+                    
+                    const allowedTypes = ['application/pdf', 'text/plain', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+                    if (!allowedTypes.includes(file.type)) {
+                        showValidationStatus('invalid', 'Tipo de arquivo não permitido. Use apenas PDF, TXT, DOC ou DOCX.');
+                        this.value = '';
+                        return;
+                    }
+
+                    // AI validation
+                    validateCVWithAI(file);
+                });
+            }
+
+            function showValidationStatus(type, message) {
+                validationStatus.className = `file-validation-status ${type}`;
+                validationMessage.textContent = message;
+            }
+
+            function hideValidationStatus() {
+                validationStatus.className = 'file-validation-status';
+            }
+
+            function validateCVWithAI(file) {
+                showValidationStatus('validating', 'Verificando se o ficheiro é um currículo...');
+                
+                const formData = new FormData();
+                formData.append('file', file);
+                
+                fetch('/validate_cv', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.valid) {
+                        isValidCV = true;
+                        showValidationStatus('valid', data.message);
+                    } else {
+                        isValidCV = false;
+                        showValidationStatus('invalid', data.message);
+                        // Clear the file input
+                        fileInput.value = '';
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro na validação:', error);
+                    isValidCV = false;
+                    showValidationStatus('invalid', 'Erro ao validar o arquivo. Tente novamente.');
+                    fileInput.value = '';
+                });
+            }
+        });
+
+        // Show loading on page navigation
+        window.addEventListener('beforeunload', function() {
+            showLoading('Carregando...');
+        });
+
+        // Hide loading when page loads
+        window.addEventListener('load', function() {
+            hideLoading();
+        });
+
+        // Show loading for all navigation links
+        document.addEventListener('click', function(e) {
+            const link = e.target.closest('a');
+            if (link && link.href && !link.href.includes('#') && !link.target) {
+                // Only show loading for internal navigation
+                if (link.href.includes(window.location.origin)) {
+                    showLoading('Carregando...');
+                }
+            }
+        });
+
+        // Auto-hide loading overlay after 60 seconds as failsafe
+        setTimeout(() => {
+            hideLoading();
+        }, 60000);
+    </script>
+</body>
+</html> 

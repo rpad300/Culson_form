@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selecionar Formulário - Culsen</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #64748b;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --info-color: #06b6d4;
+            --light-bg: #f8fafc;
+            --dark-bg: #1e293b;
+            --border-color: #e2e8f0;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 20px 0;
+        }
+
+        .main-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: var(--shadow-xl);
+            margin: 0 auto;
+            overflow: hidden;
+            max-width: 1000px;
+        }
+
+        .header-section {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #3b82f6 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transform: translate(50px, -50px);
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: -0.025em;
+        }
+
+        .page-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+
+        .content-section {
+            padding: 40px;
+        }
+
+        .form-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow-sm);
+            border: 2px solid var(--border-color);
+            margin-bottom: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .form-card:hover {
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .form-card-header {
+            background: var(--light-bg);
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .form-card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .form-card-icon {
+            width: 24px;
+            height: 24px;
+            color: var(--primary-color);
+        }
+
+        .form-card-badge {
+            background: var(--primary-color);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .form-card-body {
+            padding: 24px;
+        }
+
+        .form-card-description {
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+
+        .form-card-meta {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .form-card-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .form-card-footer {
+            padding: 16px 24px;
+            background: rgba(37, 99, 235, 0.05);
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .form-card-action {
+            color: var(--primary-color);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .admin-link {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .btn-outline-secondary {
+            border: 2px solid var(--border-color);
+            color: var(--text-secondary);
+            border-radius: 12px;
+            padding: 12px 24px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-outline-secondary:hover {
+            background: var(--light-bg);
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            transform: translateY(-1px);
+            text-decoration: none;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                margin: 10px;
+                border-radius: 16px;
+            }
+
+            .header-section {
+                padding: 30px 20px;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .content-section {
+                padding: 20px;
+            }
+
+            .form-card-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .form-card-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="main-container fade-in">
+            <!-- Header Section -->
+            <div class="header-section">
+                <div class="header-content">
+                    <h1 class="page-title">
+                        <i class="bi bi-list-check me-3"></i>
+                        Selecionar Formulário
+                    </h1>
+                    <p class="page-subtitle">Escolha o formulário que deseja preencher</p>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <!-- Flash Messages -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                <i class="bi bi-{% if category == 'success' %}check-circle{% elif category == 'danger' %}exclamation-triangle{% elif category == 'warning' %}exclamation-circle{% else %}info-circle{% endif %} me-2"></i>
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                <!-- Forms Grid -->
+                <div class="row">
+                    {% for form in forms %}
+                        <div class="col-lg-6 col-md-12 mb-4">
+                            <a href="{{ url_for('form', form_id=form.ID) }}" class="form-card">
+                                <div class="form-card-header">
+                                    <h3 class="form-card-title">
+                                        <i class="bi bi-{% if form.Categoria == 'Recrutamento' %}person-plus{% elif form.Categoria == 'Avaliacao' %}clipboard-check{% elif form.Categoria == 'Feedback' %}chat-dots{% else %}file-text{% endif %} form-card-icon"></i>
+                                        {{ form.Nome }}
+                                    </h3>
+                                    <span class="form-card-badge">{{ form.Categoria }}</span>
+                                </div>
+                                <div class="form-card-body">
+                                    <p class="form-card-description">
+                                        {{ form.Descricao or 'Formulário disponível para preenchimento.' }}
+                                    </p>
+                                    <div class="form-card-meta">
+                                        <div class="form-card-meta-item">
+                                            <i class="bi bi-calendar"></i>
+                                            <span>Criado: {{ form.DataCriacao[:10] if form.DataCriacao else 'N/A' }}</span>
+                                        </div>
+                                        <div class="form-card-meta-item">
+                                            <i class="bi bi-person"></i>
+                                            <span>{{ form.Autor or 'Sistema' }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-card-footer">
+                                    <div class="form-card-action">
+                                        <i class="bi bi-arrow-right-circle"></i>
+                                        <span>Preencher Formulário</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                {% if not forms %}
+                    <!-- Empty State -->
+                    <div class="text-center py-5">
+                        <i class="bi bi-inbox display-4 text-muted mb-3"></i>
+                        <h5 class="text-muted">Nenhum formulário disponível</h5>
+                        <p class="text-muted">Não há formulários ativos no momento. Entre em contato com o administrador.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Admin Link -->
+        <div class="admin-link">
+            <a href="{{ url_for('admin') }}" class="btn-outline-secondary">
+                <i class="bi bi-gear"></i>
+                Painel de Administração
+            </a>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate cards on load
+            const cards = document.querySelectorAll('.form-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.classList.add('fade-in');
+            });
+        });
+    </script>
+</body>
+</html> 

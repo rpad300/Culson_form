@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Perguntas - Admin Culsen</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #64748b;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --info-color: #06b6d4;
+            --light-bg: #f8fafc;
+            --dark-bg: #1e293b;
+            --border-color: #e2e8f0;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 20px 0;
+        }
+
+        .main-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: var(--shadow-xl);
+            margin: 0 auto;
+            overflow: hidden;
+            max-width: 1200px;
+        }
+
+        .header-section {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #3b82f6 100%);
+            color: white;
+            padding: 30px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-content h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .header-content p {
+            margin: 5px 0 0 0;
+            opacity: 0.9;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            border-radius: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-light {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+
+        .btn-light:hover {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .content-section {
+            padding: 40px;
+        }
+
+        .info-card {
+            background: var(--light-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 30px;
+        }
+
+        .info-card h5 {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .questions-table {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .table {
+            margin: 0;
+        }
+
+        .table th {
+            background: var(--light-bg);
+            border: none;
+            font-weight: 600;
+            color: var(--text-primary);
+            padding: 16px;
+        }
+
+        .table td {
+            border: none;
+            border-bottom: 1px solid var(--border-color);
+            padding: 16px;
+            vertical-align: middle;
+        }
+
+        .table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .badge {
+            font-size: 0.75rem;
+            font-weight: 500;
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        .badge-success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+        }
+
+        .badge-secondary {
+            background: rgba(100, 116, 139, 0.1);
+            color: var(--secondary-color);
+        }
+
+        .badge-primary {
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary-color);
+        }
+
+        .badge-warning {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning-color);
+        }
+
+        .type-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .section-group {
+            background: rgba(37, 99, 235, 0.05);
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .alert {
+            border: none;
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid;
+        }
+
+        .alert-info {
+            background: rgba(6, 182, 212, 0.1);
+            border-left-color: var(--info-color);
+            color: #155e75;
+        }
+
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 0.875rem;
+        }
+
+        .text-muted {
+            color: var(--text-secondary) !important;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                margin: 10px;
+                border-radius: 16px;
+            }
+
+            .header-section {
+                padding: 20px;
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .content-section {
+                padding: 20px;
+            }
+
+            .table-responsive {
+                font-size: 0.875rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="main-container fade-in">
+            <!-- Header Section -->
+            <div class="header-section">
+                <div class="header-content">
+                    <h1>
+                        <i class="bi bi-question-circle me-3"></i>
+                        Gerenciar Perguntas
+                    </h1>
+                    <p>Configure as perguntas do formulário de candidatura</p>
+                </div>
+                <div class="header-actions">
+                    <a href="{{ url_for('admin_questions_edit') }}" class="btn btn-light">
+                        <i class="bi bi-pencil me-2"></i>
+                        Editar
+                    </a>
+                    <a href="{{ url_for('admin_questions_preview') }}" class="btn btn-light" target="_blank">
+                        <i class="bi bi-eye me-2"></i>
+                        Preview
+                    </a>
+                    <a href="{{ url_for('admin') }}" class="btn btn-light">
+                        <i class="bi bi-arrow-left me-2"></i>
+                        Voltar
+                    </a>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <!-- Flash Messages -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                <i class="bi bi-{% if category == 'success' %}check-circle{% elif category == 'danger' %}exclamation-triangle{% elif category == 'warning' %}exclamation-circle{% else %}info-circle{% endif %} me-2"></i>
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                <!-- Info Card -->
+                <div class="info-card">
+                    <h5><i class="bi bi-info-circle me-2"></i>Como Funciona</h5>
+                    <p class="mb-2">As perguntas são carregadas dinamicamente da aba <strong>"Perguntas"</strong> no Google Sheets.</p>
+                    <p class="mb-2">Para editar as perguntas, acesse diretamente a planilha do Google Sheets e modifique a aba "Perguntas".</p>
+                    <p class="mb-0">
+                        <strong>Tipos suportados:</strong> text, email, tel, date, textarea, select, radio, checkbox, file
+                    </p>
+                </div>
+
+                <!-- Questions Table -->
+                <div class="questions-table">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Ordem</th>
+                                    <th>Seção</th>
+                                    <th>Pergunta</th>
+                                    <th>Tipo</th>
+                                    <th>Obrigatória</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if questions %}
+                                    {% set current_section = '' %}
+                                    {% for question in questions %}
+                                        <tr {% if question.Secao != current_section %}class="section-group"{% endif %}>
+                                            <td>
+                                                <span class="badge badge-secondary">{{ question.Ordem }}</span>
+                                            </td>
+                                            <td>
+                                                {% if question.Secao != current_section %}
+                                                    <strong>{{ question.Secao }}</strong>
+                                                    {% set current_section = question.Secao %}
+                                                {% else %}
+                                                    <span class="text-muted">{{ question.Secao }}</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                <strong>{{ question.Pergunta }}</strong>
+                                                {% if question.Ajuda %}
+                                                    <br><small class="text-muted">{{ question.Ajuda }}</small>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                <span class="badge type-badge 
+                                                    {% if question.Tipo in ['text', 'email', 'tel', 'date'] %}badge-primary
+                                                    {% elif question.Tipo in ['textarea'] %}badge-info
+                                                    {% elif question.Tipo in ['select', 'radio'] %}badge-warning
+                                                    {% elif question.Tipo in ['checkbox'] %}badge-success
+                                                    {% elif question.Tipo in ['file'] %}badge-secondary
+                                                    {% else %}badge-secondary{% endif %}">
+                                                    <i class="bi bi-{% if question.Tipo == 'text' %}type
+                                                        {% elif question.Tipo == 'email' %}envelope
+                                                        {% elif question.Tipo == 'tel' %}telephone
+                                                        {% elif question.Tipo == 'date' %}calendar
+                                                        {% elif question.Tipo == 'textarea' %}textarea-t
+                                                        {% elif question.Tipo == 'select' %}list
+                                                        {% elif question.Tipo == 'radio' %}record-circle
+                                                        {% elif question.Tipo == 'checkbox' %}check-square
+                                                        {% elif question.Tipo == 'file' %}file-earmark
+                                                        {% else %}gear{% endif %} me-1"></i>
+                                                    {{ question.Tipo }}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                {% if question.Obrigatoria == 'Sim' %}
+                                                    <span class="badge badge-warning">
+                                                        <i class="bi bi-exclamation-circle me-1"></i>
+                                                        Obrigatória
+                                                    </span>
+                                                {% else %}
+                                                    <span class="badge badge-secondary">Opcional</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if question.Ativa == 'Sim' %}
+                                                    <span class="badge badge-success">
+                                                        <i class="bi bi-check-circle me-1"></i>
+                                                        Ativa
+                                                    </span>
+                                                {% else %}
+                                                    <span class="badge badge-secondary">Inativa</span>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr>
+                                        <td colspan="6" class="text-center py-5">
+                                            <i class="bi bi-question-circle display-4 text-muted mb-3"></i>
+                                            <h5 class="text-muted">Nenhuma pergunta encontrada</h5>
+                                            <p class="text-muted">Configure as perguntas na aba "Perguntas" do Google Sheets.</p>
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Statistics -->
+                {% if questions %}
+                <div class="row mt-4">
+                    <div class="col-md-3">
+                        <div class="info-card text-center">
+                            <h3 class="text-primary mb-1">{{ questions|length }}</h3>
+                            <small class="text-muted">Total de Perguntas</small>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="info-card text-center">
+                            <h3 class="text-success mb-1">{{ questions|selectattr('Ativa', 'equalto', 'Sim')|list|length }}</h3>
+                            <small class="text-muted">Perguntas Ativas</small>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="info-card text-center">
+                            <h3 class="text-warning mb-1">{{ questions|selectattr('Obrigatoria', 'equalto', 'Sim')|list|length }}</h3>
+                            <small class="text-muted">Obrigatórias</small>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="info-card text-center">
+                            <h3 class="text-info mb-1">{{ questions|map(attribute='Secao')|unique|list|length }}</h3>
+                            <small class="text-muted">Seções</small>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 

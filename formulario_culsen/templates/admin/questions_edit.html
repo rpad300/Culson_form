@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor de Perguntas - Admin Culsen</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #64748b;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --info-color: #06b6d4;
+            --light-bg: #f8fafc;
+            --dark-bg: #1e293b;
+            --border-color: #e2e8f0;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 20px 0;
+        }
+
+        .main-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: var(--shadow-xl);
+            margin: 0 auto;
+            overflow: hidden;
+            max-width: 1400px;
+        }
+
+        .header-section {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #3b82f6 100%);
+            color: white;
+            padding: 30px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-content h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .header-content p {
+            margin: 5px 0 0 0;
+            opacity: 0.9;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            border-radius: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-light {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+
+        .btn-light:hover {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .content-section {
+            padding: 40px;
+        }
+
+        .editor-layout {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 30px;
+            min-height: 600px;
+        }
+
+        .questions-editor {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            padding: 24px;
+        }
+
+        .preview-panel {
+            background: var(--light-bg);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            padding: 24px;
+            position: sticky;
+            top: 20px;
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+        }
+
+        .question-item {
+            background: white;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            transition: all 0.3s ease;
+            cursor: move;
+        }
+
+        .question-item:hover {
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-md);
+        }
+
+        .question-item.sortable-ghost {
+            opacity: 0.5;
+        }
+
+        .question-item.sortable-chosen {
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .question-handle {
+            color: var(--text-secondary);
+            cursor: grab;
+            margin-right: 12px;
+        }
+
+        .question-handle:active {
+            cursor: grabbing;
+        }
+
+        .question-number {
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-right: 12px;
+        }
+
+        .question-actions {
+            display: flex;
+            gap: 8px;
+            margin-left: auto;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.875rem;
+        }
+
+        .form-control, .form-select {
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            outline: none;
+        }
+
+        .form-check-input {
+            border: 2px solid var(--border-color);
+            border-radius: 4px;
+        }
+
+        .form-check-input:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .add-question-btn {
+            background: var(--light-bg);
+            border: 2px dashed var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .add-question-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            background: rgba(37, 99, 235, 0.05);
+        }
+
+        .preview-form {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .preview-section {
+            margin-bottom: 24px;
+        }
+
+        .preview-section-title {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .alert {
+            border: none;
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid;
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.1);
+            border-left-color: var(--success-color);
+            color: #065f46;
+        }
+
+        .alert-danger {
+            background: rgba(239, 68, 68, 0.1);
+            border-left-color: var(--danger-color);
+            color: #991b1b;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .editor-layout {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .preview-panel {
+                position: static;
+                max-height: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                margin: 10px;
+                border-radius: 16px;
+            }
+
+            .header-section {
+                padding: 20px;
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .content-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="main-container fade-in">
+            <!-- Header Section -->
+            <div class="header-section">
+                <div class="header-content">
+                    <h1>
+                        <i class="bi bi-tools me-3"></i>
+                        Editor de Perguntas
+                    </h1>
+                    <p>Arraste e solte para reordenar • Edite em tempo real • Preview instantâneo</p>
+                </div>
+                <div class="header-actions">
+                    <a href="{{ url_for('admin_questions_preview') }}" class="btn btn-light" target="_blank">
+                        <i class="bi bi-eye me-2"></i>
+                        Preview Completo
+                    </a>
+                    <a href="{{ url_for('admin_questions') }}" class="btn btn-light">
+                        <i class="bi bi-arrow-left me-2"></i>
+                        Voltar
+                    </a>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <!-- Flash Messages -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                <i class="bi bi-{% if category == 'success' %}check-circle{% elif category == 'danger' %}exclamation-triangle{% elif category == 'warning' %}exclamation-circle{% else %}info-circle{% endif %} me-2"></i>
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                <form method="POST" id="questionsForm">
+                    <div class="editor-layout">
+                        <!-- Questions Editor -->
+                        <div class="questions-editor">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h4><i class="bi bi-list-ul me-2"></i>Perguntas do Formulário</h4>
+                                <button type="button" class="btn btn-primary btn-sm" onclick="addNewQuestion()">
+                                    <i class="bi bi-plus me-2"></i>
+                                    Adicionar Pergunta
+                                </button>
+                            </div>
+
+                            <div id="questionsList">
+                                {% for question in questions %}
+                                <div class="question-item" data-question-id="{{ question.ID }}">
+                                    <div class="question-header">
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-grip-vertical question-handle"></i>
+                                            <div class="question-number">{{ loop.index }}</div>
+                                            <strong>{{ question.Secao or 'Geral' }}</strong>
+                                        </div>
+                                        <div class="question-actions">
+                                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="removeQuestion(this)">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label">ID da Pergunta</label>
+                                            <input type="text" class="form-control" name="question_id[]" value="{{ question.ID }}" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Seção</label>
+                                            <input type="text" class="form-control" name="section[]" value="{{ question.Secao }}" placeholder="Ex: Dados Pessoais">
+                                        </div>
+                                        <div class="col-12">
+                                            <label class="form-label">Pergunta</label>
+                                            <input type="text" class="form-control" name="question[]" value="{{ question.Pergunta }}" placeholder="Digite a pergunta..." required>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label">Tipo</label>
+                                            <select class="form-select" name="type[]" onchange="toggleOptionsField(this)">
+                                                <option value="text" {% if question.Tipo == 'text' %}selected{% endif %}>Texto</option>
+                                                <option value="email" {% if question.Tipo == 'email' %}selected{% endif %}>Email</option>
+                                                <option value="tel" {% if question.Tipo == 'tel' %}selected{% endif %}>Telefone</option>
+                                                <option value="date" {% if question.Tipo == 'date' %}selected{% endif %}>Data</option>
+                                                <option value="textarea" {% if question.Tipo == 'textarea' %}selected{% endif %}>Texto Longo</option>
+                                                <option value="select" {% if question.Tipo == 'select' %}selected{% endif %}>Lista Suspensa</option>
+                                                <option value="radio" {% if question.Tipo == 'radio' %}selected{% endif %}>Escolha Única</option>
+                                                <option value="checkbox" {% if question.Tipo == 'checkbox' %}selected{% endif %}>Múltipla Escolha</option>
+                                                <option value="file" {% if question.Tipo == 'file' %}selected{% endif %}>Arquivo</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label">Placeholder</label>
+                                            <input type="text" class="form-control" name="placeholder[]" value="{{ question.Placeholder }}" placeholder="Texto de exemplo...">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label">Texto de Ajuda</label>
+                                            <input type="text" class="form-control" name="help[]" value="{{ question.Ajuda }}" placeholder="Dica para o usuário...">
+                                        </div>
+                                        <div class="col-12 options-field" {% if question.Tipo in ['select', 'radio', 'checkbox'] %}style="display: block;"{% else %}style="display: none;"{% endif %}>
+                                            <label class="form-label">Opções (separadas por |)</label>
+                                            <input type="text" class="form-control" name="options[]" value="{{ question.Opcoes }}" placeholder="Opção 1|Opção 2|Opção 3">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="required_{{ loop.index0 }}" {% if question.Obrigatoria == 'Sim' %}checked{% endif %}>
+                                                <label class="form-check-label">
+                                                    Campo obrigatório
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="active_{{ loop.index0 }}" {% if question.Ativa == 'Sim' %}checked{% endif %}>
+                                                <label class="form-check-label">
+                                                    Pergunta ativa
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+
+                            <!-- Add Question Button -->
+                            <div class="add-question-btn" onclick="addNewQuestion()">
+                                <i class="bi bi-plus-circle display-6 mb-2"></i>
+                                <h5>Adicionar Nova Pergunta</h5>
+                                <p class="mb-0 text-muted">Clique para adicionar uma nova pergunta ao formulário</p>
+                            </div>
+
+                            <!-- Save Button -->
+                            <div class="mt-4 d-grid">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="bi bi-save me-2"></i>
+                                    Salvar Alterações
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Preview Panel -->
+                        <div class="preview-panel">
+                            <h5><i class="bi bi-eye me-2"></i>Preview do Formulário</h5>
+                            <p class="text-muted mb-4">Visualização em tempo real das suas alterações</p>
+                            
+                            <div id="formPreview" class="preview-form">
+                                <!-- Preview será gerado dinamicamente -->
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <script>
+        let questionCounter = {% if questions %}{{ questions|length }}{% else %}0{% endif %};
+        
+        // Initialize sortable
+        document.addEventListener('DOMContentLoaded', function() {
+            const questionsList = document.getElementById('questionsList');
+            
+            new Sortable(questionsList, {
+                handle: '.question-handle',
+                animation: 150,
+                ghostClass: 'sortable-ghost',
+                chosenClass: 'sortable-chosen',
+                onEnd: function() {
+                    updateQuestionNumbers();
+                    updatePreview();
+                }
+            });
+            
+            updatePreview();
+        });
+
+        function addNewQuestion() {
+            questionCounter++;
+            const questionsList = document.getElementById('questionsList');
+            
+            const questionHtml = `
+                <div class="question-item" data-question-id="q_${questionCounter}">
+                    <div class="question-header">
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-grip-vertical question-handle"></i>
+                            <div class="question-number">${questionCounter}</div>
+                            <strong>Nova Pergunta</strong>
+                        </div>
+                        <div class="question-actions">
+                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="removeQuestion(this)">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">ID da Pergunta</label>
+                            <input type="text" class="form-control" name="question_id[]" value="q_${questionCounter}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Seção</label>
+                            <input type="text" class="form-control" name="section[]" value="Geral" placeholder="Ex: Dados Pessoais">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Pergunta</label>
+                            <input type="text" class="form-control" name="question[]" value="" placeholder="Digite a pergunta..." required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Tipo</label>
+                            <select class="form-select" name="type[]" onchange="toggleOptionsField(this)">
+                                <option value="text">Texto</option>
+                                <option value="email">Email</option>
+                                <option value="tel">Telefone</option>
+                                <option value="date">Data</option>
+                                <option value="textarea">Texto Longo</option>
+                                <option value="select">Lista Suspensa</option>
+                                <option value="radio">Escolha Única</option>
+                                <option value="checkbox">Múltipla Escolha</option>
+                                <option value="file">Arquivo</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Placeholder</label>
+                            <input type="text" class="form-control" name="placeholder[]" value="" placeholder="Texto de exemplo...">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Texto de Ajuda</label>
+                            <input type="text" class="form-control" name="help[]" value="" placeholder="Dica para o usuário...">
+                        </div>
+                        <div class="col-12 options-field" style="display: none;">
+                            <label class="form-label">Opções (separadas por |)</label>
+                            <input type="text" class="form-control" name="options[]" value="" placeholder="Opção 1|Opção 2|Opção 3">
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="required_${questionCounter - 1}">
+                                <label class="form-check-label">
+                                    Campo obrigatório
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="active_${questionCounter - 1}" checked>
+                                <label class="form-check-label">
+                                    Pergunta ativa
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            questionsList.insertAdjacentHTML('beforeend', questionHtml);
+            updateQuestionNumbers();
+            updatePreview();
+        }
+
+        function removeQuestion(button) {
+            if (confirm('Tem certeza que deseja remover esta pergunta?')) {
+                button.closest('.question-item').remove();
+                updateQuestionNumbers();
+                updatePreview();
+            }
+        }
+
+        function updateQuestionNumbers() {
+            const questions = document.querySelectorAll('.question-item');
+            questions.forEach((question, index) => {
+                const numberElement = question.querySelector('.question-number');
+                if (numberElement) {
+                    numberElement.textContent = index + 1;
+                }
+            });
+        }
+
+        function toggleOptionsField(selectElement) {
+            const questionItem = selectElement.closest('.question-item');
+            const optionsField = questionItem.querySelector('.options-field');
+            const selectedType = selectElement.value;
+            
+            if (['select', 'radio', 'checkbox'].includes(selectedType)) {
+                optionsField.style.display = 'block';
+            } else {
+                optionsField.style.display = 'none';
+            }
+            
+            updatePreview();
+        }
+
+        function updatePreview() {
+            const questions = document.querySelectorAll('.question-item');
+            const previewContainer = document.getElementById('formPreview');
+            
+            let previewHtml = '';
+            let currentSection = '';
+            
+            questions.forEach((questionItem, index) => {
+                const questionData = {
+                    id: questionItem.querySelector('input[name="question_id[]"]').value,
+                    section: questionItem.querySelector('input[name="section[]"]').value,
+                    question: questionItem.querySelector('input[name="question[]"]').value,
+                    type: questionItem.querySelector('select[name="type[]"]').value,
+                    placeholder: questionItem.querySelector('input[name="placeholder[]"]').value,
+                    help: questionItem.querySelector('input[name="help[]"]').value,
+                    options: questionItem.querySelector('input[name="options[]"]').value,
+                    required: questionItem.querySelector(`input[name="required_${index}"]`).checked,
+                    active: questionItem.querySelector(`input[name="active_${index}"]`).checked
+                };
+                
+                if (!questionData.active) return;
+                
+                // Nova seção
+                if (questionData.section !== currentSection) {
+                    if (currentSection !== '') {
+                        previewHtml += '</div>';
+                    }
+                    currentSection = questionData.section;
+                    previewHtml += `<div class="preview-section">
+                        <h6 class="preview-section-title">${questionData.section}</h6>`;
+                }
+                
+                // Pergunta
+                previewHtml += `<div class="mb-3">
+                    <label class="form-label">${questionData.question}${questionData.required ? ' *' : ''}</label>`;
+                
+                // Campo baseado no tipo
+                switch (questionData.type) {
+                    case 'textarea':
+                        previewHtml += `<textarea class="form-control" placeholder="${questionData.placeholder}" disabled></textarea>`;
+                        break;
+                    case 'select':
+                        previewHtml += `<select class="form-select" disabled>
+                            <option>Selecione uma opção</option>`;
+                        if (questionData.options) {
+                            questionData.options.split('|').forEach(option => {
+                                previewHtml += `<option>${option.trim()}</option>`;
+                            });
+                        }
+                        previewHtml += `</select>`;
+                        break;
+                    case 'radio':
+                        if (questionData.options) {
+                            questionData.options.split('|').forEach((option, i) => {
+                                previewHtml += `<div class="form-check">
+                                    <input class="form-check-input" type="radio" disabled>
+                                    <label class="form-check-label">${option.trim()}</label>
+                                </div>`;
+                            });
+                        }
+                        break;
+                    case 'checkbox':
+                        if (questionData.options) {
+                            questionData.options.split('|').forEach((option, i) => {
+                                previewHtml += `<div class="form-check">
+                                    <input class="form-check-input" type="checkbox" disabled>
+                                    <label class="form-check-label">${option.trim()}</label>
+                                </div>`;
+                            });
+                        }
+                        break;
+                    case 'file':
+                        previewHtml += `<input type="file" class="form-control" disabled>`;
+                        break;
+                    default:
+                        previewHtml += `<input type="${questionData.type}" class="form-control" placeholder="${questionData.placeholder}" disabled>`;
+                }
+                
+                if (questionData.help) {
+                    previewHtml += `<div class="form-text">${questionData.help}</div>`;
+                }
+                
+                previewHtml += `</div>`;
+            });
+            
+            if (currentSection !== '') {
+                previewHtml += '</div>';
+            }
+            
+            if (previewHtml === '') {
+                previewHtml = '<p class="text-muted text-center">Nenhuma pergunta ativa para mostrar</p>';
+            }
+            
+            previewContainer.innerHTML = previewHtml;
+        }
+
+        // Update preview when inputs change
+        document.addEventListener('input', updatePreview);
+        document.addEventListener('change', updatePreview);
+    </script>
+</body>
+</html> 

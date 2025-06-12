@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Candidato - {{ candidato.nome }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            --light-bg: #f8f9fa;
+            --border-color: #dee2e6;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .main-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            margin: 20px auto;
+            max-width: 1200px;
+            overflow: hidden;
+        }
+
+        .header-section {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .candidate-avatar {
+            width: 80px;
+            height: 80px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .status-badge {
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .status-aprovado { background: var(--success-color); color: white; }
+        .status-rejeitado { background: var(--danger-color); color: white; }
+        .status-revisao { background: var(--warning-color); color: white; }
+        .status-pendente { background: #6c757d; color: white; }
+
+        .info-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .card-header-custom {
+            background: linear-gradient(135deg, var(--secondary-color), #5dade2);
+            color: white;
+            padding: 15px 20px;
+            margin: -25px -25px 20px -25px;
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-row {
+            display: flex;
+            margin-bottom: 15px;
+            align-items: flex-start;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: var(--primary-color);
+            min-width: 180px;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-value {
+            flex: 1;
+            padding: 8px 12px;
+            background: var(--light-bg);
+            border-radius: 6px;
+            border-left: 3px solid var(--secondary-color);
+            word-break: break-word;
+        }
+
+        .analysis-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 12px;
+            padding: 25px;
+            border-left: 5px solid var(--secondary-color);
+        }
+
+        .analysis-text {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            white-space: pre-line;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .action-buttons {
+            background: var(--light-bg);
+            padding: 20px;
+            border-radius: 0 0 15px 15px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn-custom {
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary-custom {
+            background: linear-gradient(135deg, var(--secondary-color), #5dade2);
+            color: white;
+        }
+
+        .btn-primary-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.3);
+            color: white;
+        }
+
+        .btn-warning-custom {
+            background: linear-gradient(135deg, var(--warning-color), #f7dc6f);
+            color: white;
+        }
+
+        .btn-warning-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(243, 156, 18, 0.3);
+            color: white;
+        }
+
+        .btn-success-custom {
+            background: linear-gradient(135deg, var(--success-color), #58d68d);
+            color: white;
+        }
+
+        .btn-success-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(39, 174, 96, 0.3);
+            color: white;
+        }
+
+        .btn-outline-custom {
+            background: white;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-outline-custom:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .cv-link {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .cv-link:hover {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+
+        .empty-value {
+            color: #6c757d;
+            font-style: italic;
+        }
+
+        @media print {
+            body { background: white !important; }
+            .main-container { box-shadow: none !important; margin: 0 !important; max-width: none !important; }
+            .action-buttons { display: none !important; }
+            .info-card:hover { transform: none !important; box-shadow: none !important; }
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .loading-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .loading-content {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 300px;
+        }
+
+        .loading-spinner-large {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border: 3px solid var(--secondary-color);
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s ease-in-out infinite;
+            margin-bottom: 20px;
+        }
+
+        .btn-custom:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn-custom.loading {
+            pointer-events: none;
+        }
+
+        .loading-spinner-btn {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .main-container { margin: 10px; border-radius: 10px; }
+            .header-section { padding: 20px; }
+            .info-card { padding: 20px; }
+            .info-row { flex-direction: column; }
+            .info-label { min-width: auto; margin-bottom: 5px; }
+            .action-buttons { flex-direction: column; }
+            .btn-custom { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container" id="candidate-details">
+        <!-- Header Section -->
+        <div class="header-section">
+            <div class="header-content">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <div class="candidate-avatar">
+                            <i class="bi bi-person-fill"></i>
+                        </div>
+                        <h1 class="mb-2">{{ candidato.nome or 'Nome nao informado' }}</h1>
+                        <p class="mb-1"><i class="bi bi-envelope me-2"></i>{{ candidato.email or 'Email nao informado' }}</p>
+                        <p class="mb-0"><i class="bi bi-telephone me-2"></i>{{ candidato.telefone or 'Telefone nao informado' }}</p>
+                    </div>
+                    <div class="col-md-4 text-md-end">
+                        {% if candidato.classificacao %}
+                            <div class="status-badge status-{{ candidato.classificacao.lower() }}">
+                                {{ candidato.classificacao }}
+                            </div>
+                        {% endif %}
+                        {% if candidato.data_submissao %}
+                            <p class="mt-2 mb-0"><small><i class="bi bi-calendar me-1"></i>Submetido em: {{ candidato.data_submissao }}</small></p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid p-4">
+            <!-- Debug Info (remover em produção) -->
+            {% if config and config.get('DEBUG') %}
+            <div class="alert alert-info">
+                <strong>Debug Info:</strong><br>
+                Classificacao: {{ candidato.classificacao }}<br>
+                Justificacao: {{ candidato.justificacao[:100] if candidato.justificacao else 'None' }}<br>
+                Provider: {{ candidato.provider }}<br>
+                Index: {{ candidato.index }}
+            </div>
+            {% endif %}
+            
+            <!-- Informacoes Pessoais -->
+            <div class="info-card">
+                <div class="card-header-custom">
+                    <i class="bi bi-person-lines-fill"></i>
+                    <h4 class="mb-0">Informacoes Pessoais</h4>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="info-row">
+                            <div class="info-label">
+                                <i class="bi bi-calendar-date"></i>
+                                Data de Nascimento:
+                            </div>
+                            <div class="info-value">{{ candidato.data_nascimento or 'Nao informado' }}</div>
+                        </div>
+                        
+                        <div class="info-row">
+                            <div class="info-label">
+                                <i class="bi bi-geo-alt"></i>
+                                Morada:
+                            </div>
+                            <div class="info-value">{{ candidato.morada or 'Nao informado' }}</div>
+                        </div>
+                        
+                        <div class="info-row">
+                            <div class="info-label">
+                                <i class="bi bi-house"></i>
+                                Residencia:
+                            </div>
+                            <div class="info-value">{{ candidato.residencia or 'Nao informado' }}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="info-row">
+                            <div class="info-label">
+                                <i class="bi bi-car-front"></i>
+                                Carta de Conducao:
+                            </div>
+                            <div class="info-value">{{ candidato.carta_conducao or 'Nao informado' }}</div>
+                        </div>
+                        
+                        <div class="info-row">
+                            <div class="info-label">
+                                <i class="bi bi-calendar-week"></i>
+                                Dias Disponiveis:
+                            </div>
+                            <div class="info-value">{{ candidato.dias_disponiveis or 'Nao informado' }}</div>
+                        </div>
+                        
+                        <div class="info-row">
+                            <div class="info-label">
+                                <i class="bi bi-clock"></i>
+                                Turnos Disponiveis:
+                            </div>
+                            <div class="info-value">{{ candidato.turnos_disponiveis or 'Nao informado' }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Experiencia e Formacao -->
+            <div class="info-card">
+                <div class="card-header-custom">
+                    <i class="bi bi-briefcase"></i>
+                    <h4 class="mb-0">Experiencia e Formacao</h4>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="info-row">
+                            <div class="info-label">
+                                <i class="bi bi-check-circle"></i>
+                                Experiencia:
+                            </div>
+                            <div class="info-value">{{ candidato.experiencia or 'Nao informado' }}</div>
+                        </div>
+                        
+                        <div class="info-row">
+                            <div class="info-label">
+                                <i class="bi bi-list-ul"></i>
+                                Tipo de Experiencia:
+                            </div>
+                            <div class="info-value">{{ candidato.tipo_experiencia or 'Nao informado' }}</div>
+                        </div>
+                        
+                        <div class="info-row">
+                            <div class="info-label">
+                                <i class="bi bi-hourglass-split"></i>
+                                Duracao da Experiencia:
+                            </div>
+                            <div class="info-value">{{ candidato.duracao_experiencia or 'Nao informado' }}</div>
+                        </div>
+                        
+                        <div class="info-row">
+                            <div class="info-label">
+                                <i class="bi bi-tools"></i>
+                                Funcoes Desempenhadas:
+                            </div>
+                            <div class="info-value">{{ candidato.funcoes or 'Nao informado' }}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="info-row">
+                            <div class="info-label">
+                                <i class="bi bi-mortarboard"></i>
+                                Formacao:
+                            </div>
+                            <div class="info-value">{{ candidato.formacao or 'Nao informado' }}</div>
+                        </div>
+                        
+                        <div class="info-row">
+                            <div class="info-label">
+                                <i class="bi bi-hospital"></i>
+                                Formacao na Area da Saude:
+                            </div>
+                            <div class="info-value">{{ candidato.formacao_area or 'Nao informado' }}</div>
+                        </div>
+                        
+                        <div class="info-row">
+                            <div class="info-label">
+                                <i class="bi bi-bookmark"></i>
+                                Tipo de Formacao:
+                            </div>
+                            <div class="info-value">{{ candidato.tipo_formacao or 'Nao informado' }}</div>
+                        </div>
+                        
+                        <div class="info-row">
+                            <div class="info-label">
+                                <i class="bi bi-building"></i>
+                                Entidade Formadora:
+                            </div>
+                            <div class="info-value">{{ candidato.entidade_formadora or 'Nao informado' }}</div>
+                        </div>
+                        
+                        <div class="info-row">
+                            <div class="info-label">
+                                <i class="bi bi-calendar-check"></i>
+                                Ano de Conclusao:
+                            </div>
+                            <div class="info-value">{{ candidato.ano_conclusao or 'Nao informado' }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Documentacao -->
+            <div class="info-card">
+                <div class="card-header-custom">
+                    <i class="bi bi-file-earmark-text"></i>
+                    <h4 class="mb-0">Documentacao</h4>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="info-row">
+                            <div class="info-label">
+                                <i class="bi bi-flag"></i>
+                                Cidadao Portugues:
+                            </div>
+                            <div class="info-value">{{ candidato.cidadao_portugues or 'Nao informado' }}</div>
+                        </div>
+                        
+                        <div class="info-row">
+                            <div class="info-label">
+                                <i class="bi bi-shield-check"></i>
+                                Autorizacao para Trabalhar:
+                            </div>
+                            <div class="info-value">{{ candidato.autorizacao_portugal or 'Nao informado' }}</div>
+                        </div>
+                        
+                        <div class="info-row">
+                            <div class="info-label">
+                                <i class="bi bi-card-text"></i>
+                                Documento:
+                            </div>
+                            <div class="info-value">{{ candidato.documento or 'Nao informado' }}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="info-row">
+                            <div class="info-label">
+                                <i class="bi bi-clock-history"></i>
+                                Tempo em Portugal:
+                            </div>
+                            <div class="info-value">{{ candidato.tempo_portugal or 'Nao informado' }}</div>
+                        </div>
+                        
+                        <div class="info-row">
+                            <div class="info-label">
+                                <i class="bi bi-receipt"></i>
+                                Recibos Verdes:
+                            </div>
+                            <div class="info-value">{{ candidato.recibos_verdes or 'Nao informado' }}</div>
+                        </div>
+                        
+                        <div class="info-row">
+                            <div class="info-label">
+                                <i class="bi bi-file-pdf"></i>
+                                CV:
+                            </div>
+                            <div class="info-value">
+                                {% if candidato.cv_url %}
+                                    <a href="{{ candidato.cv_url }}" target="_blank" class="cv-link">
+                                        <i class="bi bi-download"></i>
+                                        Ver CV
+                                    </a>
+                                {% else %}
+                                    <span class="empty-value">CV nao disponivel</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analise de IA -->
+            <div class="info-card">
+                <div class="card-header-custom">
+                    <i class="bi bi-robot"></i>
+                    <h4 class="mb-0">Analise de Inteligencia Artificial</h4>
+                </div>
+                
+                <div class="analysis-section">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="info-row">
+                                <div class="info-label">
+                                    <i class="bi bi-award"></i>
+                                    Classificacao:
+                                </div>
+                                <div class="info-value">
+                                    {% if candidato.classificacao %}
+                                        <span class="status-badge status-{{ candidato.classificacao.lower() }}">
+                                            {{ candidato.classificacao }}
+                                        </span>
+                                    {% else %}
+                                        <span class="status-badge status-pendente">
+                                            Nao analisado
+                                        </span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-row">
+                                <div class="info-label">
+                                    <i class="bi bi-cpu"></i>
+                                    Provedor IA:
+                                </div>
+                                <div class="info-value">{{ candidato.provider or 'Nao especificado' }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-row">
+                        <div class="info-label">
+                            <i class="bi bi-chat-square-text"></i>
+                            Analise Detalhada:
+                        </div>
+                    </div>
+                    {% if candidato.justificacao %}
+                        <div class="analysis-text">{{ candidato.justificacao }}</div>
+                    {% else %}
+                        <div class="analysis-text">
+                            <em class="text-muted">Nenhuma análise disponível. Clique em "Reanalisar com IA" para gerar uma nova análise.</em>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <button onclick="generatePDF()" class="btn-custom btn-success-custom">
+                <i class="bi bi-file-pdf"></i>
+                Exportar para PDF
+            </button>
+            
+            <a href="/admin/reanalyze/{{ candidato.index }}" class="btn-custom btn-warning-custom">
+                <i class="bi bi-arrow-repeat"></i>
+                Reanalisar com IA
+            </a>
+            
+            <button onclick="window.print()" class="btn-custom btn-primary-custom">
+                <i class="bi bi-printer"></i>
+                Imprimir
+            </button>
+            
+            <a href="/admin" class="btn-custom btn-outline-custom">
+                <i class="bi bi-arrow-left"></i>
+                Voltar a Lista
+            </a>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="loading-spinner-large"></div>
+            <h5 class="mb-2">Processando...</h5>
+            <p class="text-muted mb-0" id="loadingMessage">Por favor aguarde enquanto processamos a sua solicitação.</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Loading overlay functions
+        function showLoading(message = 'Por favor aguarde enquanto processamos a sua solicitação.') {
+            const overlay = document.getElementById('loadingOverlay');
+            const messageEl = document.getElementById('loadingMessage');
+            messageEl.textContent = message;
+            overlay.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function hideLoading() {
+            const overlay = document.getElementById('loadingOverlay');
+            overlay.classList.remove('show');
+            document.body.style.overflow = '';
+        }
+
+        function generatePDF() {
+            const element = document.getElementById('candidate-details');
+            const candidateName = '{{ candidato.nome or "Candidato" }}';
+            
+            // Show loading
+            showLoading('Gerando PDF... Por favor aguarde.');
+            
+            const opt = {
+                margin: 1,
+                filename: `Analise_${candidateName.replace(/\s+/g, '_')}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { 
+                    scale: 2,
+                    useCORS: true,
+                    letterRendering: true
+                },
+                jsPDF: { 
+                    unit: 'in', 
+                    format: 'a4', 
+                    orientation: 'portrait' 
+                }
+            };
+
+            const actionButtons = document.querySelector('.action-buttons');
+            actionButtons.style.display = 'none';
+
+            html2pdf().set(opt).from(element).save().then(() => {
+                actionButtons.style.display = 'flex';
+                hideLoading();
+            }).catch(() => {
+                actionButtons.style.display = 'flex';
+                hideLoading();
+                alert('Erro ao gerar PDF. Tente novamente.');
+            });
+        }
+
+        // Add loading to reanalyze button
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hide loading overlay on page load
+            hideLoading();
+            
+            // Animate cards
+            const cards = document.querySelectorAll('.info-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+
+            // Add loading to reanalyze button
+            const reanalyzeBtn = document.querySelector('a[href*="/admin/reanalyze/"]');
+            if (reanalyzeBtn) {
+                reanalyzeBtn.addEventListener('click', function(e) {
+                    const icon = this.querySelector('i');
+                    const originalIconClass = icon.className;
+                    
+                    // Show button loading state
+                    icon.className = 'loading-spinner-btn';
+                    this.style.pointerEvents = 'none';
+                    this.classList.add('loading');
+                    
+                    // Show overlay
+                    showLoading('Reanalisando candidato com IA... Isto pode demorar alguns segundos.');
+                    
+                    // Fallback: re-enable button after 30 seconds
+                    setTimeout(() => {
+                        icon.className = originalIconClass;
+                        this.style.pointerEvents = '';
+                        this.classList.remove('loading');
+                        hideLoading();
+                    }, 30000);
+                });
+            }
+
+            // Add loading to back button
+            const backBtn = document.querySelector('a[href="/admin"]');
+            if (backBtn) {
+                backBtn.addEventListener('click', function(e) {
+                    const icon = this.querySelector('i');
+                    const originalIconClass = icon.className;
+                    
+                    // Show button loading state
+                    icon.className = 'loading-spinner-btn';
+                    this.style.pointerEvents = 'none';
+                    
+                    // Show overlay
+                    showLoading('Voltando à lista...');
+                    
+                    // Don't prevent default - let the navigation happen
+                    // The loading will be hidden when the new page loads
+                });
+            }
+
+            // Add loading to PDF button
+            const pdfBtn = document.querySelector('button[onclick="generatePDF()"]');
+            if (pdfBtn) {
+                pdfBtn.addEventListener('click', function() {
+                    const icon = this.querySelector('i');
+                    const originalIconClass = icon.className;
+                    
+                    // Show button loading state
+                    icon.className = 'loading-spinner-btn';
+                    this.disabled = true;
+                    this.classList.add('loading');
+                    
+                    // Re-enable after PDF generation (handled in generatePDF function)
+                    setTimeout(() => {
+                        icon.className = originalIconClass;
+                        this.disabled = false;
+                        this.classList.remove('loading');
+                    }, 10000);
+                });
+            }
+
+            // Add loading to print button
+            const printBtn = document.querySelector('button[onclick="window.print()"]');
+            if (printBtn) {
+                printBtn.addEventListener('click', function() {
+                    const icon = this.querySelector('i');
+                    const originalIconClass = icon.className;
+                    
+                    // Show button loading state
+                    icon.className = 'loading-spinner-btn';
+                    this.disabled = true;
+                    
+                    // Show loading briefly
+                    showLoading('Preparando impressão...');
+                    
+                    setTimeout(() => {
+                        hideLoading();
+                        icon.className = originalIconClass;
+                        this.disabled = false;
+                    }, 1000);
+                });
+            }
+        });
+
+        // Show loading on page navigation
+        window.addEventListener('beforeunload', function() {
+            showLoading('Carregando...');
+        });
+
+        // Hide loading when page loads
+        window.addEventListener('load', function() {
+            hideLoading();
+        });
+
+        // Show loading for all navigation links
+        document.addEventListener('click', function(e) {
+            const link = e.target.closest('a');
+            if (link && link.href && !link.href.includes('#') && !link.target) {
+                // Only show loading for internal navigation
+                if (link.href.includes(window.location.origin)) {
+                    showLoading('Carregando...');
+                }
+            }
+        });
+
+        // Auto-hide loading overlay after 30 seconds as failsafe
+        setTimeout(() => {
+            hideLoading();
+        }, 30000);
+    </script>
+</body>
+</html> 
